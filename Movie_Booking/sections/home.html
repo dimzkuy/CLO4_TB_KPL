@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CinemaBook - Home</title>
+  <link rel="stylesheet" href="../styles/style.css" />
+  <style>
+    /* Tambahan style untuk navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1a1a2e;
+      padding: 15px 30px;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .navbar-logo span {
+      margin-right: 8px;
+    }
+    
+    .navbar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .user-icon {
+      background-color: #e94560;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .logout-btn {
+      background-color: #e94560;
+      border: none;
+      color: white;
+      padding: 7px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    
+    .logout-btn:hover {
+      background-color: #d13354;
+    }
+    
+    /* Style untuk konten utama */
+    .main-content {
+      padding: 30px;
+    }
+    
+    .section-title {
+      margin-bottom: 20px;
+      color: #1a1a2e;
+      font-size: 1.8rem;
+    }
+    
+    .movie-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .movie-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    
+    .movie-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    }
+    
+    .movie-poster {
+      height: 250px;
+      background-color: #ddd;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .movie-info {
+      padding: 15px;
+    }
+    
+    .movie-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .movie-genre {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+    
+    .movie-rating {
+      display: flex;
+      align-items: center;
+    }
+    
+    .rating-star {
+      color: #ffc107;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navbar dengan nama user -->
+    <div class="navbar">
+      <div class="navbar-logo">
+        <span class="logo-icon">🎬</span>
+        CinemaBook
+      </div>
+      <div class="navbar-user">
+        <div class="user-icon" id="userInitial">U</div>
+        <div class="username" id="usernameDisplay">Username</div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <h2 class="section-title">Film Yang Sedang Tayang</h2>
+      
+      <div class="movie-container">
+        <!-- Movie cards -->
+        <div class="movie-card">
+          <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300?text=Movie+1')"></div>
+          <div class="movie-info">
+            <div class="movie-title">Dune: Part Two</div>
+            <div class="movie-genre">Sci-Fi, Adventure</div>
+            <div class="movie-rating">
+              <span class="rating-star">★</span>
+              <span>4.8/5</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="movie-card">
+          <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300?text=Movie+2')"></div>
+          <div class="movie-info">
+            <div class="movie-title">The Batman</div>
+            <div class="movie-genre">Action, Crime</div>
+            <div class="movie-rating">
+              <span class="rating-star">★</span>
+              <span>4.7/5</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="movie-card">
+          <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300?text=Movie+3')"></div>
+          <div class="movie-info">
+            <div class="movie-title">Oppenheimer</div>
+            <div class="movie-genre">Biography, Drama</div>
+            <div class="movie-rating">
+              <span class="rating-star">★</span>
+              <span>4.9/5</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="movie-card">
+          <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300?text=Movie+4')"></div>
+          <div class="movie-info">
+            <div class="movie-title">Inside Out 2</div>
+            <div class="movie-genre">Animation, Comedy</div>
+            <div class="movie-rating">
+              <span class="rating-star">★</span>
+              <span>4.6/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Segera Tayang</h2>
+      <div class="movie-container">
+        <div class="movie-card">
+          <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300?text=Coming+Soon+1')"></div>
+          <div class="movie-info">
+            <div class="movie-title">Avatar 3</div>
+            <div class="movie-genre">Sci-Fi, Adventure</div>
+            <div class="movie-rating">
+              <span>Coming Soon</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="movie-card">
+          <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300?text=Coming+Soon+2')"></div>
+          <div class="movie-info">
+            <div class="movie-title">Deadpool & Wolverine</div>
+            <div class="movie-genre">Action, Comedy</div>
+            <div class="movie-rating">
+              <span>Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../scripts/logout.js"></script>
+  <script src="../scripts/home.js"></script>
+</body>
+</html>

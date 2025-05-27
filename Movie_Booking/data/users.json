@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin123",
+      "email": "admin@cinemabook.com",
+      "registerDate": "2025-05-27"
+    },
+    {
+      "username": "user1",
+      "password": "password123",
+      "email": "user1@example.com",
+      "registerDate": "2025-05-27"
+    },
+    {
+      "username": "arwin",
+      "password": "arwin",
+      "email": "",
+      "registerDate": "2025-05-27"
+    }
+  ]
+}
