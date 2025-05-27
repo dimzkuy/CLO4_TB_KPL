@@ -1,101 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CinemaBook - Pemesanan Tiket Bioskop</title>
-    <link rel="stylesheet" href="../styles/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CinemaBook - Pemesanan Tiket Bioskop</title>
+  <link rel="stylesheet" href="../styles/style.css" />
 </head>
 <body>
-    <div class="container">
-        <!-- Header with Logo -->
-        <div class="header">
-            <div class="logo">
-                <span class="logo-icon">🎬</span>
-                CinemaBook
-            </div>
-            <p class="tagline">
-                Sistem pemesanan tiket bioskop modern dengan pengalaman yang mudah dan menyenangkan
-            </p>
-        </div>
-        
-        <!-- Features Section -->
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">📅</div>
-                <h3 class="feature-title">Jadwal Fleksibel</h3>
-                <p class="feature-desc">Pilih jadwal yang sesuai dengan waktu Anda</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">📍</div>
-                <h3 class="feature-title">Pilih Kursi</h3>
-                <p class="feature-desc">Pilih kursi favorit Anda dengan mudah</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">👤</div>
-                <h3 class="feature-title">Booking Mudah</h3>
-                <p class="feature-desc">Proses pemesanan yang cepat dan aman</p>
-            </div>
-        </div>
-        
-        <!-- Login Section -->
-        <div class="auth-container">
-            <div class="tab-header">
-                <button class="tab-btn active">Login</button>
-                <button class="tab-btn">Daftar</button>
-            </div>
-            
-            <div class="auth-form">
-                <h2 class="auth-title">Masuk ke Akun</h2>
-                <p class="auth-subtitle">Masukkan username dan password Anda</p>
-                
-                <form>
-                    <div class="form-group">
-                        <label class="form-label">Username</label>
-                        <input type="text" class="form-input" placeholder="Masukkan username">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-input" placeholder="Masukkan password">
-                    </div>
-                    
-                    <button type="submit" class="form-button">Masuk</button>
-                </form>
-            </div>
-        </div>
+  <div class="container">
+    <!-- Header with Logo -->
+    <div class="header">
+      <div class="logo">
+        <span class="logo-icon">🎬</span>
+        CinemaBook
+      </div>
+      <p class="tagline">
+        Sistem pemesanan tiket bioskop modern dengan pengalaman yang mudah dan menyenangkan
+      </p>
     </div>
 
-    <script>
-        // Tab switching functionality
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                // Update form title and content based on selected tab
-                const authTitle = document.querySelector('.auth-title');
-                const authSubtitle = document.querySelector('.auth-subtitle');
-                const formButton = document.querySelector('.form-button');
-                
-                if (button.textContent === 'Daftar') {
-                    authTitle.textContent = 'Daftar Akun Baru';
-                    authSubtitle.textContent = 'Buat akun untuk mulai memesan tiket';
-                    formButton.textContent = 'Daftar';
-                } else {
-                    authTitle.textContent = 'Masuk ke Akun';
-                    authSubtitle.textContent = 'Masukkan username dan password Anda';
-                    formButton.textContent = 'Masuk';
-                }
-            });
-        });
-    </script>
+    <!-- Features Section -->
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3 class="feature-title">Jadwal Fleksibel</h3>
+        <p class="feature-desc">Pilih jadwal yang sesuai dengan waktu Anda</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h3 class="feature-title">Pilih Kursi</h3>
+        <p class="feature-desc">Pilih kursi favorit Anda dengan mudah</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👤</div>
+        <h3 class="feature-title">Booking Mudah</h3>
+        <p class="feature-desc">Proses pemesanan yang cepat dan aman</p>
+      </div>
+    </div>
+
+    <!-- Login/Register Section -->
+    <div class="auth-container">
+      <div class="tab-header">
+        <button class="tab-btn active">Login</button>
+        <button class="tab-btn">Daftar</button>
+      </div>
+
+      <div class="auth-form">
+        <h2 class="auth-title">Masuk ke Akun</h2>
+        <p class="auth-subtitle">Masukkan username dan password Anda</p>
+
+        <form>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" placeholder="Masukkan username" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" placeholder="Masukkan password" required />
+          </div>
+
+          <button type="submit" class="form-button">Masuk</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const authTitle = document.querySelector('.auth-title');
+        const authSubtitle = document.querySelector('.auth-subtitle');
+        const formButton = document.querySelector('.form-button');
+
+        if (button.textContent === 'Daftar') {
+          authTitle.textContent = 'Daftar Akun Baru';
+          authSubtitle.textContent = 'Buat akun untuk mulai memesan tiket';
+          formButton.textContent = 'Daftar';
+        } else {
+          authTitle.textContent = 'Masuk ke Akun';
+          authSubtitle.textContent = 'Masukkan username dan password Anda';
+          formButton.textContent = 'Masuk';
+        }
+      });
+    });
+
+    // Register & Login logic
+    const form = document.querySelector('form');
+    const formButton = document.querySelector('.form-button');
+
+    function registerUser(username, password) {
+      if (localStorage.getItem(username)) {
+        alert('Username sudah terdaftar!');
+      } else {
+        localStorage.setItem(username, password);
+        alert('Pendaftaran berhasil! Silakan login.');
+      }
+    }
+
+    function loginUser(username, password) {
+      const storedPassword = localStorage.getItem(username);
+      if (storedPassword === password) {
+        alert('Login berhasil!');
+        // Redirect ke halaman utama (jika ada)
+      } else {
+        alert('Username atau password salah!');
+      }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = form.querySelector('input[type="text"]').value.trim();
+      const password = form.querySelector('input[type="password"]').value.trim();
+
+      if (!username || !password) {
+        alert('Semua kolom wajib diisi!');
+        return;
+      }
+
+      if (formButton.textContent === 'Daftar') {
+        registerUser(username, password);
+      } else {
+        loginUser(username, password);
+      }
+
+      form.reset();
+    });
+  </script>
 </body>
 </html>
