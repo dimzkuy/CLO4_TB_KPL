@@ -8,12 +8,20 @@ const PORT = 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'Movie_Booking')));
+
+// Penyesuaian path statis - naik satu level dari folder servers
+app.use(express.static(path.join(__dirname, '..')));
+
+// Tangani root route untuk redirect ke landing_page
+app.get('/', (req, res) => {
+  res.redirect('/sections/landing_page.html');
+});
 
 // API untuk register user dan update users.json
 app.post('/api/register', (req, res) => {
   const { username, password, email } = req.body;
-  const usersFilePath = path.join(__dirname, 'Movie_Booking', 'data', 'users.json');
+  // Penyesuaian path ke users.json - sekarang relatif terhadap folder servers
+  const usersFilePath = path.join(__dirname, '..', 'data', 'users.json');
   
   try {
     // Baca file users.json
@@ -48,7 +56,8 @@ app.post('/api/register', (req, res) => {
 // API untuk login
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-  const usersFilePath = path.join(__dirname, 'Movie_Booking', 'data', 'users.json');
+  // Penyesuaian path ke users.json
+  const usersFilePath = path.join(__dirname, '..', 'data', 'users.json');
   
   try {
     const data = fs.readFileSync(usersFilePath, 'utf8');
@@ -69,7 +78,43 @@ app.post('/api/login', (req, res) => {
   }
 });
 
+// Log request paths untuk memudahkan debugging
+app.use((req, res, next) => {
+  console.log(`Request path: ${req.path}`);
+  next();
+});
+
+// Menangani permintaan ke file HTML secara eksplisit
+app.get('/sections/landing_page.html', (req, res) => {
+  const filePath = path.join(__dirname, '..', 'sections', 'landing_page.html');
+  console.log('Mencari file di:', filePath);
+  
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    console.error('File tidak ditemukan:', filePath);
+    res.status(404).send('File landing_page.html tidak ditemukan');
+  }
+});
+
+app.get('/sections/home.html', (req, res) => {
+  const filePath = path.join(__dirname, '..', 'sections', 'home.html');
+  
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send('File home.html tidak ditemukan');
+  }
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).send(`Cannot GET ${req.path}`);
+});
+
 // Server listening
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Access the app at: http://localhost:${PORT}/sections/landing_page.html`);
+  console.log(`Root path redirects to: http://localhost:${PORT}/`);
 });
