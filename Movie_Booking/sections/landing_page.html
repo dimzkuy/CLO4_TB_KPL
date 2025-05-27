@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CinemaBook - Pemesanan Tiket Bioskop</title>
   <link rel="stylesheet" href="../styles/style.css" />
 </head>
+
 <body>
   <div class="container">
     <!-- Header with Logo -->
@@ -45,22 +47,48 @@
         <button class="tab-btn">Daftar</button>
       </div>
 
-      <div class="auth-form">
+      <!-- Login Form -->
+      <div class="auth-form" id="login-form">
         <h2 class="auth-title">Masuk ke Akun</h2>
-        <p class="auth-subtitle">Masukkan username dan password Anda</p>
+        <p class="auth-subtitle">Masukkan username/email dan password Anda</p>
 
-        <form>
+        <form id="loginForm">
           <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-input" placeholder="Masukkan username" required />
+            <label class="form-label">Username / Email</label>
+            <input type="text" class="form-input" id="loginUsername" placeholder="Masukkan Username atau Email" required />
           </div>
 
           <div class="form-group">
             <label class="form-label">Password</label>
-            <input type="password" class="form-input" placeholder="Masukkan password" required />
+            <input type="password" class="form-input" id="loginPassword" placeholder="Masukkan Password" required />
           </div>
 
           <button type="submit" class="form-button">Masuk</button>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div class="auth-form" id="register-form" style="display: none;">
+        <h2 class="auth-title">Daftar Akun Baru</h2>
+        <p class="auth-subtitle">Buat akun untuk mulai memesan tiket</p>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" id="registerUsername" placeholder="Masukkan username" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="registerEmail" placeholder="Masukkan email" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="registerPassword" placeholder="Masukkan password" required />
+          </div>
+
+          <button type="submit" class="form-button">Daftar</button>
         </form>
       </div>
     </div>
@@ -71,4 +99,5 @@
   <script src="../scripts/register.js"></script>
   <script src="../scripts/UI.js"></script>
 </body>
+
 </html>

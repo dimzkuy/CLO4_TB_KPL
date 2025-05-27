@@ -55,22 +55,23 @@ app.post('/api/register', (req, res) => {
 
 // API untuk login
 app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-  // Penyesuaian path ke users.json
+  const { usernameOrEmail, password } = req.body;
   const usersFilePath = path.join(__dirname, '..', 'data', 'users.json');
   
   try {
     const data = fs.readFileSync(usersFilePath, 'utf8');
     const usersObj = JSON.parse(data);
     
+    // Find user berdasarkan username atau email
     const user = usersObj.users.find(user => 
-      user.username === username && user.password === password
+      (user.username === usernameOrEmail || user.email === usernameOrEmail) && 
+      user.password === password
     );
     
     if (user) {
       res.json({ success: true, username: user.username });
     } else {
-      res.status(401).json({ success: false, message: 'Username atau password salah' });
+      res.status(401).json({ success: false, message: 'Username/Email atau password salah' });
     }
   } catch (error) {
     console.error('Error:', error);

@@ -25,15 +25,16 @@ function loadUsers() {
   return JSON.parse(usersData);
 }
 
-// Login functionality dengan API
-async function loginUser(username, password) {
+// Login functionality dengan API - dapat menggunakan username atau email
+async function loginUser(usernameOrEmail, password) {
   try {
+    // Coba login dengan API server
     const response = await fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ usernameOrEmail, password })
     });
     
     const data = await response.json();
@@ -43,13 +44,37 @@ async function loginUser(username, password) {
     }
     
     // Simpan user yang sedang login
-    localStorage.setItem('currentUser', username);
+    localStorage.setItem('currentUser', data.username);
     
     // Redirect ke home page
     window.location.href = 'home.html';
   } catch (error) {
-    alert('Username atau password salah!');
     console.error('Error:', error);
+    
+    // Fallback ke localStorage jika server tidak tersedia
+    console.log('Falling back to localStorage login...');
+    loginWithLocalStorage(usernameOrEmail, password);
+  }
+}
+
+// Login dengan localStorage sebagai fallback - mendukung email atau username
+function loginWithLocalStorage(usernameOrEmail, password) {
+  const usersObj = loadUsers();
+  
+  // Find user berdasarkan username atau email
+  const user = usersObj.users.find(user => 
+    (user.username === usernameOrEmail || user.email === usernameOrEmail) && 
+    user.password === password
+  );
+  
+  if (user) {
+    // Simpan user yang sedang login
+    localStorage.setItem('currentUser', user.username);
+    
+    // Redirect ke home page
+    window.location.href = 'home.html';
+  } else {
+    alert('Username/Email atau password salah!');
   }
 }
 

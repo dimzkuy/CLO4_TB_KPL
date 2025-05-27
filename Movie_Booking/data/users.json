@@ -23,6 +23,24 @@
       "password": "dimas",
       "email": "",
       "registerDate": "2025-05-27"
+    },
+    {
+      "username": "win",
+      "password": "123",
+      "email": "",
+      "registerDate": "2025-05-27"
+    },
+    {
+      "username": "abu2",
+      "password": "abuu",
+      "email": "prabu@gmail.com",
+      "registerDate": "2025-05-27"
+    },
+    {
+      "username": "abun",
+      "password": "abuun",
+      "email": "prab@gmail.com",
+      "registerDate": "2025-05-27"
     }
   ]
 }
