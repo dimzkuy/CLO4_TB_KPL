@@ -41,6 +41,12 @@
       "password": "abuun",
       "email": "prab@gmail.com",
       "registerDate": "2025-05-27"
+    },
+    {
+      "username": "upin",
+      "password": "ipin",
+      "email": "upinipin@gmail.com",
+      "registerDate": "2025-05-30"
     }
   ]
 }

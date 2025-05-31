@@ -159,3 +159,4 @@ document.addEventListener('DOMContentLoaded', function() {
     window.cinemaBookUI = cinemaBookUI;
   }
 });
+

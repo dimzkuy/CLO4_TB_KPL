@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pilih Kursi - CinemaBook</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #4e54c8, #8f94fb);
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        background: #2c2f5b;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 600px;
+        width: 100%;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      .screen {
+        background: #fff;
+        color: #333;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .seat-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      .seat {
+        width: 35px;
+        height: 35px;
+        margin: 5px;
+        border-radius: 6px;
+        background-color: #bbb;
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 14px;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .seat:hover {
+        background-color: #999;
+      }
+
+      .seat.selected {
+        background-color: #6c63ff;
+        color: #fff;
+      }
+
+      .seat.occupied {
+        background-color: #444;
+        color: #aaa;
+        cursor: not-allowed;
+      }
+
+      .legend {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+
+      .available {
+        background: #bbb;
+      }
+
+      .selected {
+        background: #6c63ff;
+      }
+
+      .occupied {
+        background: #444;
+      }
+
+      #submit {
+        margin-top: 20px;
+        background-color: #6c63ff;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.2s;
+      }
+
+      #submit:hover {
+        background-color: #5848d9;
+      }
+
+      @media screen and (max-width: 480px) {
+        .seat {
+          width: 28px;
+          height: 28px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Pilih Kursi Anda</h2>
+      <div class="screen">LAYAR</div>
+
+      <div id="seat-container"></div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <span class="legend-color available"></span> Tersedia
+        </div>
+        <div class="legend-item">
+          <span class="legend-color selected"></span> Dipilih
+        </div>
+        <div class="legend-item">
+          <span class="legend-color occupied"></span> Terisi
+        </div>
+      </div>
+
+      <button id="submit">Konfirmasi</button>
+    </div>
+
+    <script>
+      const rows = 6;
+      const seatsPerRow = 8;
+      const seatContainer = document.getElementById("seat-container");
+      const submitBtn = document.getElementById("submit");
+
+      // Ambil data kursi terisi dari localStorage
+      const occupiedSeats =
+        JSON.parse(localStorage.getItem("occupiedSeats")) || [];
+
+      // Buat kursi
+      for (let i = 0; i < rows; i++) {
+        const rowDiv = document.createElement("div");
+        rowDiv.classList.add("seat-row");
+
+        for (let j = 0; j < seatsPerRow; j++) {
+          const seatId = String.fromCharCode(65 + i) + (j + 1);
+          const seat = document.createElement("div");
+          seat.classList.add("seat");
+          seat.textContent = seatId;
+
+          if (occupiedSeats.includes(seatId)) {
+            seat.classList.add("occupied");
+          }
+
+          seat.addEventListener("click", () => {
+            if (!seat.classList.contains("occupied")) {
+              seat.classList.toggle("selected");
+            }
+          });
+
+          rowDiv.appendChild(seat);
+        }
+
+        seatContainer.appendChild(rowDiv);
+      }
+
+      // Ambil nama film dari localStorage dan tampilkan di judul
+      const selectedMovie = localStorage.getItem("filmDipilih");
+      if (selectedMovie) {
+        document.querySelector("h2").textContent = `Pilih Kursi Untuk "${selectedMovie}"`;
+      }
+
+      // Ketika tombol Konfirmasi ditekan
+      submitBtn.addEventListener("click", () => {
+        const selectedSeats = Array.from(
+          document.querySelectorAll(".seat.selected")
+        ).map((seat) => seat.textContent);
+        if (selectedSeats.length === 0) {
+          alert("Silakan pilih minimal satu kursi!");
+          return;
+        }
+
+        // Simpan data film & kursi ke localStorage untuk halaman pembayaran
+        localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
+
+        // Tambahkan ke kursi terisi
+        const updatedOccupied = [
+          ...new Set([...occupiedSeats, ...selectedSeats]),
+        ];
+        localStorage.setItem("occupiedSeats", JSON.stringify(updatedOccupied));
+
+        alert(
+          `Film: ${selectedMovie}\nKursi: ${selectedSeats.join(
+            ", "
+          )}\nBerhasil dikonfirmasi!`
+        );
+
+        // Redirect ke halaman pembayaran (jika sudah ada)
+        // window.location.href = 'pembayaran.html';
+        window.location.reload();
+      });
+    </script>
+  </body>
+</html>
