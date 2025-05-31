@@ -47,6 +47,12 @@
       "password": "ipin",
       "email": "upinipin@gmail.com",
       "registerDate": "2025-05-30"
+    },
+    {
+      "username": "coba",
+      "password": "walawe",
+      "email": "test@gmail.com",
+      "registerDate": "2025-05-31"
     }
   ]
 }

@@ -1,5 +1,24 @@
-// Load users dari localStorage (untuk UI)
-function loadUsers() {
+// Load users dari file JSON
+async function loadUsersFromFile() {
+  try {
+    const response = await fetch('../data/users.json');
+    if (!response.ok) {
+      throw new Error('Failed to load users.json');
+    }
+    const userData = await response.json();
+    
+    // Simpan ke localStorage untuk fallback
+    localStorage.setItem('usersData', JSON.stringify(userData));
+    return userData;
+  } catch (error) {
+    console.error('Error loading users.json:', error);
+    console.log('Falling back to localStorage...');
+    return loadUsersFromLocalStorage();
+  }
+}
+
+// Fallback ke localStorage jika file tidak bisa dibaca
+function loadUsersFromLocalStorage() {
   const usersData = localStorage.getItem('usersData');
   if (!usersData) {
     // Initial default users if none exists
@@ -25,6 +44,33 @@ function loadUsers() {
   return JSON.parse(usersData);
 }
 
+// Show alert popup
+function showAlert(message, type) {
+  // Hapus alert yang ada
+  const existingAlert = document.querySelector('.alert');
+  if (existingAlert) {
+    existingAlert.remove();
+  }
+  
+  // Buat alert baru
+  const alert = document.createElement('div');
+  alert.className = `alert alert-${type}`;
+  alert.innerHTML = `
+    <span class="alert-message">${message}</span>
+    <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+  `;
+  
+  // Tambahkan ke body
+  document.body.appendChild(alert);
+  
+  // Auto remove setelah 5 detik
+  setTimeout(() => {
+    if (alert.parentElement) {
+      alert.remove();
+    }
+  }, 5000);
+}
+
 // Login functionality dengan API - dapat menggunakan username atau email
 async function loginUser(usernameOrEmail, password) {
   try {
@@ -43,38 +89,68 @@ async function loginUser(usernameOrEmail, password) {
       throw new Error(data.message || 'Login failed');
     }
     
-    // Simpan user yang sedang login
-    localStorage.setItem('currentUser', data.username);
+    // Simpan user yang sedang login dengan data lengkap
+    localStorage.setItem('currentUser', JSON.stringify({
+      username: data.username,
+      email: data.email,
+      loginTime: new Date().toISOString()
+    }));
     
-    // Redirect ke home page
-    window.location.href = 'home.html';
+    showAlert('Login berhasil! Anda akan diarahkan ke halaman utama.', 'success');
+    
+    // Redirect ke home page setelah 1.5 detik
+    setTimeout(() => {
+      window.location.href = 'home.html';
+    }, 1500);
+    
   } catch (error) {
     console.error('Error:', error);
     
-    // Fallback ke localStorage jika server tidak tersedia
-    console.log('Falling back to localStorage login...');
-    loginWithLocalStorage(usernameOrEmail, password);
+    // Fallback ke file JSON atau localStorage
+    console.log('Falling back to file/localStorage login...');
+    await loginWithFileOrLocalStorage(usernameOrEmail, password);
   }
 }
 
-// Login dengan localStorage sebagai fallback - mendukung email atau username
-function loginWithLocalStorage(usernameOrEmail, password) {
-  const usersObj = loadUsers();
+// Login dengan file JSON atau localStorage sebagai fallback
+async function loginWithFileOrLocalStorage(usernameOrEmail, password) {
+  const usersObj = await loadUsersFromFile();
+  
+  // Debug: tampilkan data users
+  console.log('Users data:', usersObj);
+  console.log('Login attempt - Username/Email:', usernameOrEmail, 'Password:', password);
   
   // Find user berdasarkan username atau email
-  const user = usersObj.users.find(user => 
-    (user.username === usernameOrEmail || user.email === usernameOrEmail) && 
-    user.password === password
-  );
+  const user = usersObj.users.find(user => {
+    console.log('Checking user:', user.username, user.email, user.password);
+    return (user.username === usernameOrEmail || user.email === usernameOrEmail) && 
+           user.password === password;
+  });
+  
+  console.log('Found user:', user);
   
   if (user) {
-    // Simpan user yang sedang login
-    localStorage.setItem('currentUser', user.username);
+    // Simpan user yang sedang login dengan data lengkap
+    localStorage.setItem('currentUser', JSON.stringify({
+      username: user.username,
+      email: user.email,
+      loginTime: new Date().toISOString()
+    }));
     
-    // Redirect ke home page
-    window.location.href = 'home.html';
+    showAlert('Login berhasil! Anda akan diarahkan ke halaman utama.', 'success');
+    
+    // Redirect ke home page setelah 1.5 detik
+    setTimeout(() => {
+      window.location.href = 'home.html';
+    }, 1500);
   } else {
-    alert('Username/Email atau password salah!');
+    showAlert('Username/Email atau password salah!', 'error');
+    
+    // Debug: tampilkan semua users yang tersedia
+    console.log('Available users:');
+    usersObj.users.forEach(u => {
+      console.log(`Username: ${u.username}, Email: ${u.email}, Password: ${u.password}`);
+    });
   }
 }
 
@@ -87,10 +163,30 @@ function checkLoggedInUser() {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   // Check if user is already logged in
   checkLoggedInUser();
   
-  // Initialize users data
-  loadUsers();
+  // Initialize users data from file
+  await loadUsersFromFile();
+  
+  // Handle login form submission
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const usernameOrEmail = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      
+      // Validasi input kosong
+      if (!usernameOrEmail || !password) {
+        showAlert('Mohon isi semua field!', 'error');
+        return;
+      }
+      
+      // Lakukan login
+      loginUser(usernameOrEmail, password);
+    });
+  }
 });

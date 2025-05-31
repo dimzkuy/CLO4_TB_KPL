@@ -20,17 +20,41 @@ app.get('/', (req, res) => {
 // API untuk register user dan update users.json
 app.post('/api/register', (req, res) => {
   const { username, password, email } = req.body;
+  
+  console.log('Registration request received:', { username, email, password });
+  
   // Penyesuaian path ke users.json - sekarang relatif terhadap folder servers
   const usersFilePath = path.join(__dirname, '..', 'data', 'users.json');
   
   try {
     // Baca file users.json
+    if (!fs.existsSync(usersFilePath)) {
+      // Jika file tidak ada, buat file baru dengan struktur dasar
+      const initialData = {
+        "users": [
+          {
+            "username": "admin",
+            "password": "admin123",
+            "email": "admin@cinemabook.com",
+            "registerDate": "2025-05-27"
+          }
+        ]
+      };
+      fs.writeFileSync(usersFilePath, JSON.stringify(initialData, null, 2), 'utf8');
+    }
+    
     const data = fs.readFileSync(usersFilePath, 'utf8');
     const usersObj = JSON.parse(data);
     
-    // Cek apakah username sudah ada
-    if (usersObj.users.some(user => user.username === username)) {
-      return res.status(400).json({ success: false, message: 'Username sudah terdaftar' });
+    // Cek apakah username atau email sudah ada
+    const existingUser = usersObj.users.find(user => 
+      user.username === username || user.email === email
+    );
+    
+    if (existingUser) {
+      const message = existingUser.username === username ? 
+        'Username sudah terdaftar' : 'Email sudah terdaftar';
+      return res.status(400).json({ success: false, message });
     }
     
     // Tambahkan user baru
@@ -46,10 +70,12 @@ app.post('/api/register', (req, res) => {
     // Tulis kembali ke file
     fs.writeFileSync(usersFilePath, JSON.stringify(usersObj, null, 2), 'utf8');
     
+    console.log('User registered successfully:', newUser);
+    
     res.json({ success: true, message: 'Pendaftaran berhasil' });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error('Registration error:', error);
+    res.status(500).json({ success: false, message: 'Server error: ' + error.message });
   }
 });
 
@@ -69,12 +95,17 @@ app.post('/api/login', (req, res) => {
     );
     
     if (user) {
-      res.json({ success: true, username: user.username });
+      res.json({ 
+        success: true, 
+        message: 'Login berhasil',
+        username: user.username,
+        email: user.email
+      });
     } else {
       res.status(401).json({ success: false, message: 'Username/Email atau password salah' });
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Login error:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - CinemaBook</title>
+  <link rel="stylesheet" href="../styles/style.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">🎬</span>
+        CinemaBook
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="landing_page.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#film" class="nav-link">Film</a>
+        </li>
+        <li class="nav-item">
+          <a href="#jadwal" class="nav-link">Jadwal</a>
+        </li>
+        <li class="nav-item">
+          <a href="login.html" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="register.html" class="nav-link active">Register</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Register Section -->
+    <div class="auth-container">
+      <div class="auth-form">
+        <h2 class="auth-title">Daftar Akun Baru</h2>
+        <p class="auth-subtitle">Buat akun untuk mulai memesan tiket</p>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" id="registerUsername" placeholder="Masukkan username" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="registerEmail" placeholder="Masukkan email" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="registerPassword" placeholder="Masukkan password" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Konfirmasi Password</label>
+            <input type="password" class="form-input" id="confirmPassword" placeholder="Konfirmasi password" required />
+          </div>
+
+          <button type="submit" class="form-button">Daftar</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <p style="font-size: 14px; opacity: 0.8;">
+            Sudah punya akun? 
+            <a href="login.html" style="color: #ffc107; text-decoration: none;">Masuk di sini</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../scripts/register.js"></script>
+  <script src="../scripts/navbar.js"></script>
+</body>
+
+</html>

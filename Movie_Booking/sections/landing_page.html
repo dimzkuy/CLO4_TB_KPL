@@ -9,9 +9,41 @@
 </head>
 
 <body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">🎬</span>
+        CinemaBook
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#home" class="nav-link active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#film" class="nav-link">Film</a>
+        </li>
+        <li class="nav-item">
+          <a href="#jadwal" class="nav-link">Jadwal</a>
+        </li>
+        <li class="nav-item">
+          <a href="login.html" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="register.html" class="nav-link">Register</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <!-- Header with Logo -->
-    <div class="header">
+    <div class="header" id="home">
       <div class="logo">
         <span class="logo-icon">🎬</span>
         CinemaBook
@@ -40,64 +72,23 @@
       </div>
     </div>
 
-    <!-- Login/Register Section -->
-    <div class="auth-container">
-      <div class="tab-header">
-        <button class="tab-btn active">Login</button>
-        <button class="tab-btn">Daftar</button>
-      </div>
-
-      <!-- Login Form -->
-      <div class="auth-form" id="login-form">
-        <h2 class="auth-title">Masuk ke Akun</h2>
-        <p class="auth-subtitle">Masukkan username/email dan password Anda</p>
-
-        <form id="loginForm">
-          <div class="form-group">
-            <label class="form-label">Username / Email</label>
-            <input type="text" class="form-input" id="loginUsername" placeholder="Masukkan Username atau Email" required />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-input" id="loginPassword" placeholder="Masukkan Password" required />
-          </div>
-
-          <button type="submit" class="form-button">Masuk</button>
-        </form>
-      </div>
-
-      <!-- Register Form -->
-      <div class="auth-form" id="register-form" style="display: none;">
-        <h2 class="auth-title">Daftar Akun Baru</h2>
-        <p class="auth-subtitle">Buat akun untuk mulai memesan tiket</p>
-
-        <form id="registerForm">
-          <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-input" id="registerUsername" placeholder="Masukkan username" required />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input" id="registerEmail" placeholder="Masukkan email" required />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-input" id="registerPassword" placeholder="Masukkan password" required />
-          </div>
-
-          <button type="submit" class="form-button">Daftar</button>
-        </form>
+    <!-- Call to Action -->
+    <div style="text-align: center; margin: 40px 0;">
+      <h2 style="margin-bottom: 20px;">Mulai Pesan Tiket Sekarang!</h2>
+      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        <a href="login.html" class="form-button" style="display: inline-block; text-decoration: none; max-width: 200px;">
+          Masuk
+        </a>
+        <a href="register.html" class="form-button" style="display: inline-block; text-decoration: none; max-width: 200px; background-color: #ffc107; color: #333;">
+          Daftar Sekarang
+        </a>
       </div>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="../scripts/login.js"></script>
-  <script src="../scripts/register.js"></script>
   <script src="../scripts/UI.js"></script>
+  <script src="../scripts/navbar.js"></script>
 </body>
 
 </html>
