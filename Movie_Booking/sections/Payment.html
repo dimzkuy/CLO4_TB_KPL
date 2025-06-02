@@ -1,186 +1,236 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Pembayaran</title>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background: #2d1457;
-    }
-    .main-card {
-      background: #4B2676;
-      color: #fff;
-      border-radius: 18px;
-      box-shadow: 0 8px 24px 0 rgba(44, 22, 84, 0.15);
-    }
-    .detail-card {
-      background: #3a1d63;
-      border-radius: 12px;
-      color: #fff;
-      border: none;
-    }
-    .payment-card {
-      background: #fff;
-      color: #4B2676;
-      border: 2px solid transparent;
-      border-radius: 12px;
-      transition: 0.2s;
-    }
-    .payment-card.active, .payment-card:hover {
-      border-color: #f7b731;
-      background: #f7e7c1;
-      color: #4B2676;
-    }
-    .btn-purple {
-      background: #f7b731;
-      color: #4B2676;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-    .btn-purple:hover {
-      background: #f5a623;
-      color: #fff;
-    }
-    .label {
-      color: #f7b731;
-      font-weight: 600;
-    }
-    .input-readonly {
-      background: #eee6ff;
-      color: #4B2676;
-      font-weight: bold;
-      border: none;
-    }
-  </style>
-</head>
-<body class="min-h-screen flex items-center justify-center p-4">
-  <div class="main-card shadow-lg p-8 max-w-md w-full">
-    <h2 class="text-2xl font-bold mb-6 text-center tracking-wide">Konfirmasi & Pembayaran</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pembayaran</title>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background: #2d1457;
+      }
+      .main-card {
+        background: #4b2676;
+        color: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px 0 rgba(44, 22, 84, 0.15);
+      }
+      .detail-card {
+        background: #3a1d63;
+        border-radius: 12px;
+        color: #fff;
+        border: none;
+      }
+      .payment-card {
+        background: #fff;
+        color: #4b2676;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        transition: 0.2s;
+      }
+      .payment-card.active,
+      .payment-card:hover {
+        border-color: #f7b731;
+        background: #f7e7c1;
+        color: #4b2676;
+      }
+      .btn-purple {
+        background: #f7b731;
+        color: #4b2676;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+      .btn-purple:hover {
+        background: #f5a623;
+        color: #fff;
+      }
+      .label {
+        color: #f7b731;
+        font-weight: 600;
+      }
+      .input-readonly {
+        background: #eee6ff;
+        color: #4b2676;
+        font-weight: bold;
+        border: none;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-4">
+    <div class="main-card shadow-lg p-8 max-w-md w-full">
+      <h2 class="text-2xl font-bold mb-6 text-center tracking-wide">
+        Konfirmasi & Pembayaran
+      </h2>
 
-    <!-- Detail Pesanan -->
-    <div class="detail-card p-4 mb-6">
-      <h3 class="font-semibold mb-3 text-lg tracking-wide">Detail Pesanan</h3>
-      <div class="flex items-center mb-3">
-        <img id="filmPoster" src="" alt="Poster Film" class="w-20 h-28 object-cover rounded-lg mr-4 border-2 border-yellow-400 shadow-md">
-        <div>
-          <div class="mb-1"><span class="label">Film:</span> <span id="filmTitle"></span></div>
-          <div class="mb-1"><span class="label">Jam Tayang:</span> <span id="showTime"></span></div>
-          <div class="mb-1"><span class="label">Kursi:</span> <span id="seats"></span></div>
-          <div class="mb-1"><span class="label">Harga Total:</span> <span id="totalPrice"></span></div>
+      <!-- Detail Pesanan -->
+      <div class="detail-card p-4 mb-6">
+        <h3 class="font-semibold mb-3 text-lg tracking-wide">Detail Pesanan</h3>
+        <div class="flex items-center mb-3">
+          <img
+            id="filmPoster"
+            src=""
+            alt="Poster Film"
+            class="w-20 h-28 object-cover rounded-lg mr-4 border-2 border-yellow-400 shadow-md"
+          />
+          <div>
+            <div class="mb-1">
+              <span class="label">Film:</span> <span id="filmTitle"></span>
+            </div>
+            <div class="mb-1">
+              <span class="label">Jam Tayang:</span> <span id="showTime"></span>
+            </div>
+            <div class="mb-1">
+              <span class="label">Kursi:</span> <span id="seats"></span>
+            </div>
+            <div class="mb-1">
+              <span class="label">Harga Total:</span>
+              <span id="totalPrice"></span>
+            </div>
+          </div>
         </div>
       </div>
+
+      <h2 class="text-xl font-semibold mb-4 text-center tracking-wide">
+        Pilih Metode Pembayaran
+      </h2>
+      <div id="paymentOptions" class="grid grid-cols-2 gap-4 mb-6"></div>
+
+      <div class="mb-4">
+        <label for="amount" class="block text-sm font-medium label mb-1"
+          >Jumlah Pembayaran</label
+        >
+        <input
+          type="number"
+          id="amount"
+          class="w-full input-readonly rounded-md p-2"
+          readonly
+        />
+      </div>
+
+      <button id="payBtn" class="w-full btn-purple py-2 rounded-md text-lg">
+        Bayar Sekarang
+      </button>
     </div>
 
-    <h2 class="text-xl font-semibold mb-4 text-center tracking-wide">Pilih Metode Pembayaran</h2>
-    <div id="paymentOptions" class="grid grid-cols-2 gap-4 mb-6"></div>
+    <script>
+      // Ambil data pesanan dari localStorage
+      const film = localStorage.getItem("selectedFilm") || "Film";
+      const kursi = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
+      const poster = localStorage.getItem("selectedFilmImage") || "";
+      const jamTayang = localStorage.getItem("selectedShowTime") || "19:00 WIB"; // default jika belum ada
+      const hargaPerKursi = 45000;
+      const totalHarga = kursi.length * hargaPerKursi;
 
-    <div class="mb-4">
-      <label for="amount" class="block text-sm font-medium label mb-1">Jumlah Pembayaran</label>
-      <input type="number" id="amount" class="w-full input-readonly rounded-md p-2" readonly>
-    </div>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("filmTitle").textContent = film;
+        document.getElementById("seats").textContent = kursi.join(", ");
+        document.getElementById("filmPoster").src = poster;
+        document.getElementById("filmPoster").alt = film;
+        document.getElementById("totalPrice").textContent =
+          "Rp " + totalHarga.toLocaleString("id-ID");
+        document.getElementById("amount").value = totalHarga;
+      });
 
-    <button id="payBtn" class="w-full btn-purple py-2 rounded-md text-lg">Bayar Sekarang</button>
-  </div>
+      // Payment methods
+      const paymentMethods = [
+        {
+          id: "credit-card",
+          icon: '<img src="../img/Credit Card.png" alt="Credit Card" class="w-8 h-8 mb-2">',
+          label: "Credit Card",
+        },
+        {
+          id: "paypal",
+          icon: '<img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/paypal.svg" alt="PayPal" class="w-8 h-8 mb-2">',
+          label: "PayPal",
+        },
+        {
+          id: "mobile-wallet",
+          icon: '<img src="../img/Mobile Wallet.png" alt="Mobile Wallet" class="w-8 h-8 mb-2">',
+          label: "Mobile Wallet",
+        },
+        {
+          id: "bank-transfer",
+          icon: '<img src="../img/Bank Tranfer.png" alt="Bank Transfer" class="w-8 h-8 mb-2">',
+          label: "Bank Transfer",
+        },
+      ];
 
-  <script>
-    // Contoh data pesanan dari JSON
-    const pesanan = {
-      film: "Inception",
-      jamTayang: "19:00 WIB",
-      kursi: ["A1", "A2"],
-      hargaPerKursi: 45000,
-      poster: "https://m.media-amazon.com/images/I/51s+6U6wzGL._AC_SY679_.jpg" // URL poster film
-    };
+      let selectedPayment = null;
+      const container = document.getElementById("paymentOptions");
 
-    // Hitung total harga
-    const totalHarga = pesanan.kursi.length * pesanan.hargaPerKursi;
-
-    // Tampilkan detail pesanan
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('filmTitle').textContent = pesanan.film;
-      document.getElementById('showTime').textContent = pesanan.jamTayang;
-      document.getElementById('seats').textContent = pesanan.kursi.join(', ');
-      document.getElementById('totalPrice').textContent = 'Rp ' + totalHarga.toLocaleString('id-ID');
-      document.getElementById('amount').value = totalHarga;
-      document.getElementById('filmPoster').src = pesanan.poster;
-      document.getElementById('filmPoster').alt = pesanan.film;
-    });
-
-    const paymentMethods = [
-      { 
-        id: "credit-card", 
-        icon: '<img src="../img/Credit Card.png" alt="Credit Card" class="w-8 h-8 mb-2">', 
-        label: "Credit Card" 
-      },
-      { 
-        id: "paypal", 
-        icon: '<img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/paypal.svg" alt="PayPal" class="w-8 h-8 mb-2">', 
-        label: "PayPal" 
-      },
-      { 
-        id: "mobile-wallet", 
-        icon: '<img src="../img/Mobile Wallet.png" alt="Mobile Wallet" class="w-8 h-8 mb-2">', 
-        label: "Mobile Wallet" 
-      },
-      { 
-        id: "bank-transfer", 
-        icon: '<img src="../img/Bank Tranfer.png" alt="Bank Transfer" class="w-8 h-8 mb-2">', 
-        label: "Bank Transfer" 
-      }
-    ];
-
-    let selectedPayment = null;
-    const container = document.getElementById('paymentOptions');
-
-    paymentMethods.forEach(method => {
-      const div = document.createElement('div');
-      div.className = `payment-card flex flex-col items-center p-4 cursor-pointer`;
-      div.innerHTML = `
+      paymentMethods.forEach((method) => {
+        const div = document.createElement("div");
+        div.className = `payment-card flex flex-col items-center p-4 cursor-pointer`;
+        div.innerHTML = `
         ${method.icon}
         <span class="font-medium">${method.label}</span>
       `;
-      div.onclick = () => selectPaymentMethod(method.id, div);
-      container.appendChild(div);
-    });
+        div.onclick = () => selectPaymentMethod(method.id, div);
+        container.appendChild(div);
+      });
 
-    function selectPaymentMethod(id, element) {
-      selectedPayment = id;
-      document.querySelectorAll('.payment-card').forEach(el => el.classList.remove('active'));
-      element.classList.add('active');
-    }
-
-    document.getElementById('payBtn').addEventListener('click', () => {
-      const amount = document.getElementById('amount').value;
-      if (!selectedPayment) {
-        alert('Pilih metode pembayaran terlebih dahulu!');
-        return;
-      }
-      if (!amount || amount <= 0) {
-        alert('Masukkan jumlah pembayaran yang valid!');
-        return;
+      function selectPaymentMethod(id, element) {
+        selectedPayment = id;
+        document
+          .querySelectorAll(".payment-card")
+          .forEach((el) => el.classList.remove("active"));
+        element.classList.add("active");
       }
 
-      // Strategy Pattern: gunakan strategi berdasarkan ID
-      processPayment(selectedPayment, amount);
-    });
+      document.getElementById("payBtn").addEventListener("click", () => {
+        const amount = document.getElementById("amount").value;
+        if (!selectedPayment) {
+          alert("Pilih metode pembayaran terlebih dahulu!");
+          return;
+        }
+        if (!amount || amount <= 0) {
+          alert("Masukkan jumlah pembayaran yang valid!");
+          return;
+        }
 
-    // Strategy Pattern: logika pembayaran
-    function processPayment(methodId, amount) {
-      const strategies = {
-        "credit-card": () => alert(`Memproses pembayaran Rp${parseInt(amount).toLocaleString('id-ID')} untuk film "${pesanan.film}" melalui Credit Card`),
-        "paypal": () => alert(`Memproses pembayaran Rp${parseInt(amount).toLocaleString('id-ID')} untuk film "${pesanan.film}" melalui PayPal`),
-        "mobile-wallet": () => alert(`Memproses pembayaran Rp${parseInt(amount).toLocaleString('id-ID')} untuk film "${pesanan.film}" melalui Mobile Wallet`),
-        "bank-transfer": () => alert(`Memproses pembayaran Rp${parseInt(amount).toLocaleString('id-ID')} untuk film "${pesanan.film}" melalui Bank Transfer`)
+        // Strategy Pattern: gunakan strategi berdasarkan ID
+        PaymentStrategy.process(selectedPayment, amount, film);
+      });
+
+      // Strategy Pattern untuk pembayaran
+      const PaymentStrategy = {
+        strategies: {
+          "credit-card": (amount, film) =>
+            alert(
+              `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
+                "id-ID"
+              )} untuk film "${film}" melalui Credit Card`
+            ),
+          paypal: (amount, film) =>
+            alert(
+              `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
+                "id-ID"
+              )} untuk film "${film}" melalui PayPal`
+            ),
+          "mobile-wallet": (amount, film) =>
+            alert(
+              `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
+                "id-ID"
+              )} untuk film "${film}" melalui Mobile Wallet`
+            ),
+          "bank-transfer": (amount, film) =>
+            alert(
+              `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
+                "id-ID"
+              )} untuk film "${film}" melalui Bank Transfer`
+            ),
+        },
+        process: function (methodId, amount, film) {
+          if (this.strategies[methodId]) {
+            this.strategies[methodId](amount, film);
+          } else {
+            alert("Metode pembayaran tidak tersedia.");
+          }
+        },
       };
-
-      if (strategies[methodId]) {
-        strategies[methodId]();
-      } else {
-        alert("Metode pembayaran tidak tersedia.");
-      }
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>

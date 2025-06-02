@@ -161,6 +161,9 @@
       const seatContainer = document.getElementById("seat-container");
       const submitBtn = document.getElementById("submit");
 
+      // Reset kursi terisi agar semua kursi kosong
+      localStorage.removeItem("occupiedSeats");
+
       // Ambil data kursi terisi dari localStorage
       const occupiedSeats =
         JSON.parse(localStorage.getItem("occupiedSeats")) || [];
@@ -192,8 +195,19 @@
         seatContainer.appendChild(rowDiv);
       }
 
-      // Ambil nama film dari localStorage
+      // Mapping nama film ke gambar
+      const filmImages = {
+        Inception: "../img/Inception.jpeg",
+        Interstellar: "../img/Interstelar.jpeg",
+        "The Dark Knight": "../img/The_Dark_Knight.jpeg",
+        "The Shawshank Redemption": "../img/The_Shawshank_Redemption.jpeg",
+        "The Theory of Everything": "../img/The_Theory_of_Everything.jpeg",
+        "Toy Story 4": "../img/Toy_Story.jpeg",
+      };
       const film = localStorage.getItem("filmDipilih") || "Film";
+      const filmImage = filmImages[film] || "";
+
+      // Ambil nama film dari localStorage
       document.getElementById(
         "judulFilm"
       ).innerText = `Pilih Kursi Untuk "${film}"`;
@@ -208,8 +222,10 @@
           return;
         }
 
-        // Simpan data film & kursi ke localStorage untuk halaman pembayaran
+        // Simpan data film, kursi, dan gambar ke localStorage untuk halaman pembayaran
         localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
+        localStorage.setItem("selectedFilm", film);
+        localStorage.setItem("selectedFilmImage", filmImage);
 
         // Tambahkan ke kursi terisi
         const updatedOccupied = [
@@ -217,15 +233,8 @@
         ];
         localStorage.setItem("occupiedSeats", JSON.stringify(updatedOccupied));
 
-        alert(
-          `Film: ${selectedMovie}\nKursi: ${selectedSeats.join(
-            ", "
-          )}\nBerhasil dikonfirmasi!`
-        );
-
-        // Redirect ke halaman pembayaran (jika sudah ada)
-        // window.location.href = 'pembayaran.html';
-        window.location.reload();
+        // Redirect ke halaman pembayaran
+        window.location.href = "payment.html";
       });
     </script>
   </body>
