@@ -16,35 +16,60 @@ Aplikasi pemesanan tiket bioskop berbasis web, dilengkapi dengan sistem login me
 ```
 Movie_Booking/
 │
-├── api/                     # Backend API (Flask)
-│   └── auth_api.py          # API untuk login
+├── api/                    # API Autentikasi
+│ ├── pycache/
+│ └── auth_api.py
 │
-├── data/                    # Data user
-│   └── users.json
+├── data/                   #Data user
+│ └── users.json
 │
-├── img/                     # Gambar film dan pembayaran
-│   ├── Inception.jpeg
-│   ├── Credit Card.png
-│   └── ...
+├── img/                    # Aset gambar
+│ ├── Bank Tranfer.png
+│ ├── Credit Card.png
+│ ├── Inception.jpeg
+│ ├── Interstelar.jpeg
+│ ├── Mobile Wallet.png
+│ ├── PayPal.png
+│ ├── The_Dark_Knight.jpeg
+│ ├── The_Shawshank_Redemption.jpeg
+│ ├── The_Theory_of_Everything.jpeg
+│ └── Toy_Story.jpeg
 │
-├── scripts/                 # Semua file JavaScript frontend
-│   ├── login.js             # Sistem login dengan FSA
-│   ├── register.js
-│   └── ...
+├── scripts/               # Script frontend
+│ ├── PaymentSuccess.js
+│ ├── login.js
+│ ├── logout.js
+│ ├── movieManager.js
+│ ├── notificationManager.js
+│ ├── register.js
+│ ├── securityManager.js
+│ ├── sessionManager.js
+│ └── ui.js
 │
-├── sections/                # Halaman HTML
-│   ├── login.html
-│   ├── register.html
-│   ├── home.html
-│   └── ...
+├── sections/            # Halaman frontend
+│ ├── film_landing.html
+│ ├── home.html
+│ ├── jadwal.html
+│ ├── jadwal_landing.html
+│ ├── landing_page.html
+│ ├── login.html
+│ ├── payment.html
+│ ├── paymentsuccess.html
+│ ├── pilih_kursi.html
+│ └── register.html
 │
-├── styles/                  # CSS styling
-│   ├── style.css
-│   └── seat.css
+├── servers/
+│ └── package.json
 │
-├── app.py                   # Entry point Flask backend
-├── requirements.txt         # Library yang dibutuhkan
-└── README.md                # Dokumentasi ini
+├── styles/             # CSS styling
+│ ├── seat.css
+│ └── style.css
+│
+├── .gitignore
+├── app.py             # Entry point Flask backend
+├── migrate_to_flask.py
+├── requirements.txt   # Library Python yang dibutuhkan
+└── README.md
 ```
 
 ## ▶️ Cara Menjalankan Proyek
