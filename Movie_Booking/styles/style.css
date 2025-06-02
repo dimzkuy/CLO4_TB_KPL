@@ -1545,3 +1545,24 @@ html {
         border-color: rgba(255, 255, 255, 0.1);
     }
 }
+
+/* ===== PAYMENT SUCCESS STYLES ===== */
+body {
+  background: #2d1457;
+}
+.main-card {
+  background: #4b2676;
+  color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px 0 rgba(44, 22, 84, 0.15);
+}
+.btn-yellow {
+  background: #f7b731;
+  color: #4b2676;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.btn-yellow:hover {
+  background: #f5a623;
+  color: #fff;
+}

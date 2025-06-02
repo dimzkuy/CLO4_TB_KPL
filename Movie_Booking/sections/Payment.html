@@ -129,6 +129,7 @@
         document.getElementById("seats").textContent = kursi.join(", ");
         document.getElementById("filmPoster").src = poster;
         document.getElementById("filmPoster").alt = film;
+        document.getElementById("showTime").textContent = jamTayang;
         document.getElementById("totalPrice").textContent =
           "Rp " + totalHarga.toLocaleString("id-ID");
         document.getElementById("amount").value = totalHarga;
@@ -198,30 +199,38 @@
       // Strategy Pattern untuk pembayaran
       const PaymentStrategy = {
         strategies: {
-          "credit-card": (amount, film) =>
+          "credit-card": (amount, film) => {
             alert(
               `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
                 "id-ID"
               )} untuk film "${film}" melalui Credit Card`
-            ),
-          paypal: (amount, film) =>
+            );
+            window.location.href = "PaymentSuccess.html";
+          },
+          paypal: (amount, film) => {
             alert(
               `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
                 "id-ID"
               )} untuk film "${film}" melalui PayPal`
-            ),
-          "mobile-wallet": (amount, film) =>
+            );
+            window.location.href = "PaymentSuccess.html";
+          },
+          "mobile-wallet": (amount, film) => {
             alert(
               `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
                 "id-ID"
               )} untuk film "${film}" melalui Mobile Wallet`
-            ),
-          "bank-transfer": (amount, film) =>
+            );
+            window.location.href = "PaymentSuccess.html";
+          },
+          "bank-transfer": (amount, film) => {
             alert(
               `Memproses pembayaran Rp${parseInt(amount).toLocaleString(
                 "id-ID"
               )} untuk film "${film}" melalui Bank Transfer`
-            ),
+            );
+            window.location.href = "PaymentSuccess.html";
+          },
         },
         process: function (methodId, amount, film) {
           if (this.strategies[methodId]) {
