@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Terbaru - CinemaBook</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo Section -->
+            <div class="nav-logo">
+                <span class="logo-icon">🎬</span>
+                CinemaBook
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="landing_page.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="film_landing.html" class="nav-link active">Film</a>
+                </li>
+                <li class="nav-item">
+                    <a href="jadwal_landing.html" class="nav-link">Jadwal</a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="register.html" class="nav-link">Register</a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Header Section -->
+        <div class="page-header">
+            <h1 class="page-title">Film Terbaru</h1>
+            <p class="page-subtitle">Jelajahi koleksi film terbaru yang sedang tayang di bioskop kami</p>
+        </div>
+
+        <!-- Now Playing Section -->
+        <section class="movie-section">
+            <h2 class="section-title">Sedang Tayang</h2>
+            <div class="movie-container">
+                <!-- Movie Card 1: Inception -->
+                <div class="movie-card movie-preview">
+                    <div class="movie-poster" style="background-image: url('../img/Inception.jpeg')"></div>
+                    <div class="movie-info">
+                        <div class="movie-title">Inception</div>
+                        <div class="movie-genre">Sci-Fi, Adventure</div>
+                        <div class="movie-duration">⏱️ 148 menit</div>
+                        <div class="movie-rating">
+                            <span class="rating-star">⭐</span>
+                            <span>4.8/5</span>
+                        </div>
+                        <div class="movie-description">
+                            Dom Cobb adalah seorang pencuri dengan kemampuan langka untuk memasuki mimpi orang dan mencuri rahasia dari alam bawah sadar mereka.
+                        </div>
+                    </div>
+                    <div class="preview-overlay">
+                        <span class="preview-text">Preview Only</span>
+                        <small>Login untuk memesan</small>
+                    </div>
+                </div>
+
+                <!-- Movie Card 2: Interstellar -->
+                <div class="movie-card movie-preview">
+                    <div class="movie-poster" style="background-image: url('../img/Interstelar.jpeg')"></div>
+                    <div class="movie-info">
+                        <div class="movie-title">Interstellar</div>
+                        <div class="movie-genre">Adventure, Drama, Sci-Fi</div>
+                        <div class="movie-duration">⏱️ 169 menit</div>
+                        <div class="movie-rating">
+                            <span class="rating-star">⭐</span>
+                            <span>4.7/5</span>
+                        </div>
+                        <div class="movie-description">
+                            Sekelompok penjelajah memanfaatkan lubang cacing yang baru ditemukan untuk melampaui batasan perjalanan ruang angkasa manusia.
+                        </div>
+                    </div>
+                    <div class="preview-overlay">
+                        <span class="preview-text">Preview Only</span>
+                        <small>Login untuk memesan</small>
+                    </div>
+                </div>
+
+                <!-- Movie Card 3: The Dark Knight -->
+                <div class="movie-card movie-preview">
+                    <div class="movie-poster" style="background-image: url('../img/The_Dark_Knight.jpeg')"></div>
+                    <div class="movie-info">
+                        <div class="movie-title">The Dark Knight</div>
+                        <div class="movie-genre">Action, Crime, Drama</div>
+                        <div class="movie-duration">⏱️ 152 menit</div>
+                        <div class="movie-rating">
+                            <span class="rating-star">⭐</span>
+                            <span>4.9/5</span>
+                        </div>
+                        <div class="movie-description">
+                            Batman menghadapi tantangan terbesar ketika ancaman kriminal bernama Joker muncul dan menciptakan kekacauan di Gotham City.
+                        </div>
+                    </div>
+                    <div class="preview-overlay">
+                        <span class="preview-text">Preview Only</span>
+                        <small>Login untuk memesan</small>
+                    </div>
+                </div>
+
+                <!-- Movie Card 4: The Shawshank Redemption -->
+                <div class="movie-card movie-preview">
+                    <div class="movie-poster" style="background-image: url('../img/The_Shawshank_Redemption.jpeg')"></div>
+                    <div class="movie-info">
+                        <div class="movie-title">The Shawshank Redemption</div>
+                        <div class="movie-genre">Drama, Crime</div>
+                        <div class="movie-duration">⏱️ 142 menit</div>
+                        <div class="movie-rating">
+                            <span class="rating-star">⭐</span>
+                            <span>4.6/5</span>
+                        </div>
+                        <div class="movie-description">
+                            Dua pria yang dipenjara menjalin ikatan selama bertahun-tahun, menemukan penghiburan dan penebusan akhir melalui tindakan kebaikan.
+                        </div>
+                    </div>
+                    <div class="preview-overlay">
+                        <span class="preview-text">Preview Only</span>
+                        <small>Login untuk memesan</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coming Soon Section -->
+        <section class="movie-section">
+            <h2 class="section-title">Segera Tayang</h2>
+            <div class="movie-container">
+                <!-- Coming Soon Movie 1 -->
+                <div class="movie-card movie-preview coming-soon">
+                    <div class="movie-poster" style="background-image: url('../img/The_Theory_of_Everything.jpeg')"></div>
+                    <div class="movie-info">
+                        <div class="movie-title">The Theory of Everything</div>
+                        <div class="movie-genre">Biography, Drama, Romance</div>
+                        <div class="movie-duration">⏱️ 123 menit</div>
+                        <div class="movie-rating">
+                            <span>Coming Soon</span>
+                        </div>
+                        <div class="movie-description">
+                            Kisah luar biasa tentang Stephen Hawking dan perjalanan hidupnya dari mahasiswa hingga menjadi fisikawan terkenal dunia.
+                        </div>
+                    </div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text">Segera Tayang</span>
+                        <small>15 Juni 2025</small>
+                    </div>
+                </div>
+
+                <!-- Coming Soon Movie 2 -->
+                <div class="movie-card movie-preview coming-soon">
+                    <div class="movie-poster" style="background-image: url('../img/Toy_Story.jpeg')"></div>
+                    <div class="movie-info">
+                        <div class="movie-title">Toy Story 4</div>
+                        <div class="movie-genre">Animation, Adventure, Comedy</div>
+                        <div class="movie-duration">⏱️ 100 menit</div>
+                        <div class="movie-rating">
+                            <span>Coming Soon</span>
+                        </div>
+                        <div class="movie-description">
+                            Woody, Buzz dan teman-teman mainan kembali dalam petualangan baru yang mengharukan dan penuh tawa.
+                        </div>
+                    </div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text">Segera Tayang</span>
+                        <small>22 Juni 2025</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <h3 class="cta-title">Ingin Menonton Film-Film Ini?</h3>
+            <p class="cta-subtitle">Silakan login atau daftar untuk mulai memesan tiket</p>
+            <div class="cta-buttons">
+                <a href="login.html" class="cta-button cta-button--primary">Login</a>
+                <a href="register.html" class="cta-button cta-button--secondary">Daftar</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="../scripts/UI.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script>
+        // Prevent clicking on movie cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const movieCards = document.querySelectorAll('.movie-preview');
+            
+            movieCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Show login prompt
+                    const confirmLogin = confirm('Anda perlu login terlebih dahulu untuk memesan tiket. Ingin login sekarang?');
+                    if (confirmLogin) {
+                        window.location.href = 'login.html';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
