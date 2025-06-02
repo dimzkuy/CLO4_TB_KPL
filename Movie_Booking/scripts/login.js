@@ -1,6 +1,6 @@
 // LOGIN SYSTEM dengan FINITE STATE AUTOMATA (Pure Logic) + Custom Popups
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     
     // ✅ FINITE STATE AUTOMATA Definition
     const LoginStates = {
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => overlay.classList.add('show'), 100);
         
         // Global function untuk continue button
-        window.continueToHome = function() {
+        window.continueToHome = function () {
             overlay.classList.remove('show');
             setTimeout(() => {
                 overlay.remove();
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Global function untuk close button
-        window.closeErrorPopup = function() {
+        window.closeErrorPopup = function () {
             overlay.classList.remove('show');
             setTimeout(() => {
                 if (overlay.parentNode) {
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ✅ AUTOMATA: State action handler
     function executeStateAction(state, previousState, event, data) {
-        switch(state) {
+        switch (state) {
             case LoginStates.IDLE:
                 handleIdleState(previousState, event);
                 break;
@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
     transition('RESET');
     
     // ✅ FORM SUBMISSION dengan Automata
-    loginForm.addEventListener('submit', async function(e) {
+    loginForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         
         // Check if we can start login process
@@ -600,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             const data = await response.json();
-            const user = data.users.find(u => 
+            const user = data.users.find(u =>
                 (u.username === username || u.email === username) && u.password === password
             );
             
@@ -627,56 +627,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-    
-    // ✅ DEBUGGING: Add debug controls (remove in production)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        // Debug button untuk testing
-        const debugButton = document.createElement('button');
-        debugButton.textContent = 'Debug Automata';
-        debugButton.style.position = 'fixed';
-        debugButton.style.bottom = '20px';
-        debugButton.style.right = '20px';
-        debugButton.style.zIndex = '9999';
-        debugButton.style.padding = '10px';
-        debugButton.style.background = '#ffc107';
-        debugButton.style.border = 'none';
-        debugButton.style.borderRadius = '5px';
-        debugButton.style.cursor = 'pointer';
-        
-        debugButton.addEventListener('click', () => {
-            console.log('=== LOGIN AUTOMATA DEBUG INFO ===');
-            console.log('Current State:', getCurrentState());
-            console.log('Login Attempts:', loginAttempts);
-            console.log('Valid Transitions:', getValidTransitions());
-            console.log('State History:', getStateHistory());
-            console.log('====================================');
             
-            // Show debug info in custom popup
-            showErrorPopup(`
-                <strong>Debug Info:</strong><br>
-                Current State: ${getCurrentState()}<br>
-                Login Attempts: ${loginAttempts}<br>
-                Valid Transitions: ${getValidTransitions().join(', ')}<br>
-                Total State Changes: ${getStateHistory().length}
-            `, 'info');
-        });
-        
-        document.body.appendChild(debugButton);
-        
-        // Global functions untuk console debugging
-        window.loginAutomata = {
-            getCurrentState,
-            getStateHistory,
-            getValidTransitions,
-            resetAutomata,
-            transition,
-            forceState: (state) => { currentState = state; console.log(`Forced state to: ${state}`); },
-            showWelcomePopup,
-            showLoadingPopup,
-            showErrorPopup,
-            showLockoutPopup
-        };
-        
-        console.log('🐛 Debug mode enabled. Use window.loginAutomata for testing.');
-    }
 });
+        
