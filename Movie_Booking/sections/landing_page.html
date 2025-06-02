@@ -9,13 +9,16 @@
 </head>
 
 <body>
-  <!-- Navbar -->
+  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="nav-container">
+      <!-- Logo Section -->
       <div class="nav-logo">
         <span class="logo-icon">🎬</span>
         CinemaBook
       </div>
+
+      <!-- Navigation Menu -->
       <ul class="nav-menu">
         <li class="nav-item">
           <a href="#home" class="nav-link active">Home</a>
@@ -33,6 +36,8 @@
           <a href="register.html" class="nav-link">Register</a>
         </li>
       </ul>
+
+      <!-- Mobile Menu Toggle -->
       <div class="hamburger">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -41,9 +46,10 @@
     </div>
   </nav>
 
+  <!-- Main Content Container -->
   <div class="container">
-    <!-- Header with Logo -->
-    <div class="header" id="home">
+    <!-- Hero Section -->
+    <section class="header" id="home">
       <div class="logo">
         <span class="logo-icon">🎬</span>
         CinemaBook
@@ -51,42 +57,47 @@
       <p class="tagline">
         Sistem pemesanan tiket bioskop modern dengan pengalaman yang mudah dan menyenangkan
       </p>
-    </div>
+    </section>
 
     <!-- Features Section -->
-    <div class="features">
+    <section class="features">
+      <!-- Feature: Flexible Schedule -->
       <div class="feature-card">
         <div class="feature-icon">📅</div>
         <h3 class="feature-title">Jadwal Fleksibel</h3>
         <p class="feature-desc">Pilih jadwal yang sesuai dengan waktu Anda</p>
       </div>
+
+      <!-- Feature: Seat Selection -->
       <div class="feature-card">
         <div class="feature-icon">📍</div>
         <h3 class="feature-title">Pilih Kursi</h3>
         <p class="feature-desc">Pilih kursi favorit Anda dengan mudah</p>
       </div>
+
+      <!-- Feature: Easy Booking -->
       <div class="feature-card">
         <div class="feature-icon">👤</div>
         <h3 class="feature-title">Booking Mudah</h3>
         <p class="feature-desc">Proses pemesanan yang cepat dan aman</p>
       </div>
-    </div>
+    </section>
 
-    <!-- Call to Action -->
-    <div style="text-align: center; margin: 40px 0;">
-      <h2 style="margin-bottom: 20px;">Mulai Pesan Tiket Sekarang!</h2>
-      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-        <a href="login.html" class="form-button" style="display: inline-block; text-decoration: none; max-width: 200px;">
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+      <h2 class="cta-title">Mulai Pesan Tiket Sekarang!</h2>
+      <div class="cta-buttons">
+        <a href="login.html" class="cta-button cta-button--primary">
           Masuk
         </a>
-        <a href="register.html" class="form-button" style="display: inline-block; text-decoration: none; max-width: 200px; background-color: #ffc107; color: #333;">
+        <a href="register.html" class="cta-button cta-button--secondary">
           Daftar Sekarang
         </a>
       </div>
-    </div>
+    </section>
   </div>
 
-  <!-- Scripts -->
+  <!-- JavaScript Files -->
   <script src="../scripts/UI.js"></script>
   <script src="../scripts/navbar.js"></script>
 </body>

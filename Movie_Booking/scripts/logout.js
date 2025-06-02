@@ -1,30 +1,179 @@
-// Initialize user display on page load
+// Global variables untuk testing
+let sessionManager, movieManager, notificationManager;
+
+// Initialize singletons when DOM loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Cek apakah user sudah login
+    console.log('Initializing Singletons...');
+    
+    try {
+        // Initialize Singleton instances
+        sessionManager = SessionManager.getInstance();
+        movieManager = MovieManager.getInstance();
+        notificationManager = NotificationManager.getInstance();
+        
+        console.log('Singletons initialized:', {
+            sessionManager: !!sessionManager,
+            movieManager: !!movieManager,
+            notificationManager: !!notificationManager
+        });
+        
+        // Test if same instance
+        const testSession = SessionManager.getInstance();
+        console.log('Singleton test - Same instance?', sessionManager === testSession);
+        
+        // Cek apakah user sudah login
+        if (!sessionManager.isLoggedIn()) {
+            console.log('User not logged in, redirecting...');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        const currentUser = sessionManager.getCurrentUser();
+        console.log('Current user from Singleton:', currentUser);
+        
+        // Update tampilan user di navbar
+        updateUserDisplay(currentUser);
+        
+        // Setup observer untuk session changes
+        setupSessionObserver();
+        
+    } catch (error) {
+        console.error('Singleton initialization failed:', error);
+        handleFallbackInitialization();
+    }
+});
+
+// Update user display function
+function updateUserDisplay(currentUser) {
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const userInitial = document.getElementById('userInitial');
+    
+    if (usernameDisplay && userInitial && currentUser) {
+        usernameDisplay.textContent = currentUser.username;
+        userInitial.textContent = currentUser.username.charAt(0).toUpperCase();
+        console.log('User display updated via Singleton');
+    }
+}
+
+// Setup session observer
+function setupSessionObserver() {
+    sessionManager.addObserver((action, data) => {
+        console.log('Session observer triggered:', action, data);
+        
+        if (action === 'logout') {
+            notificationManager.success('Logout berhasil!');
+            setTimeout(() => {
+                window.location.href = 'landing_page.html';
+            }, 1500);
+        }
+    });
+}
+
+// Fallback initialization without Singleton
+function handleFallbackInitialization() {
+    console.log('Using fallback initialization...');
+    
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     
     if (!currentUser) {
-        // Redirect ke login jika belum login
         window.location.href = 'login.html';
         return;
     }
     
-    // Update tampilan user di navbar
+    // Fallback user display update
     const usernameDisplay = document.getElementById('usernameDisplay');
     const userInitial = document.getElementById('userInitial');
     
     if (usernameDisplay && userInitial) {
-        // Tampilkan nama user
         usernameDisplay.textContent = currentUser.username;
-        
-        // Tampilkan inisial user (huruf pertama dari username)
         userInitial.textContent = currentUser.username.charAt(0).toUpperCase();
+        console.log('User display updated via fallback');
     }
-});
+}
+
+// Main function untuk memilih film - menggunakan Singleton
+function pilihFilm(namaFilm) {
+    console.log('pilihFilm called with:', namaFilm);
+    
+    try {
+        // Gunakan Singleton instances yang sudah di-initialize
+        if (!sessionManager || !movieManager || !notificationManager) {
+            throw new Error('Singletons not initialized');
+        }
+        
+        console.log('Using Singleton pattern for movie selection');
+        
+        // Check login status
+        if (!sessionManager.isLoggedIn()) {
+            console.log('User not logged in');
+            notificationManager.error('Session expired. Please login again.');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+            return;
+        }
+        
+        // Select movie using MovieManager Singleton
+        if (movieManager.selectMovie(namaFilm)) {
+            console.log('Movie selected successfully via Singleton:', namaFilm);
+            
+            // Get selected movie data
+            const selectedMovie = movieManager.getSelectedMovie();
+            console.log('Selected movie data:', selectedMovie);
+            
+            // Show success notification
+            notificationManager.success(`Film "${namaFilm}" dipilih! Redirecting...`);
+            
+            // Redirect after short delay
+            setTimeout(() => {
+                window.location.href = 'pilih_kursi.html';
+            }, 1000);
+            
+        } else {
+            console.log('Movie selection failed');
+            notificationManager.error('Film tidak tersedia atau sudah tidak tayang.');
+        }
+        
+    } catch (error) {
+        console.error('Singleton error in pilihFilm:', error);
+        handleFallbackMovieSelection(namaFilm);
+    }
+}
+
+// Fallback movie selection without Singleton
+function handleFallbackMovieSelection(namaFilm) {
+    console.log('Using fallback movie selection for:', namaFilm);
+    
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (!currentUser) {
+        alert('Session expired. Please login again.');
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 2000);
+        return;
+    }
+    
+    // Simpan informasi film yang dipilih (fallback)
+    const movieInfo = {
+        title: namaFilm,
+        selectedBy: currentUser.username,
+        selectedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('selectedMovie', JSON.stringify(movieInfo));
+    console.log('Movie saved via fallback, redirecting...');
+    
+    // Show simple alert
+    alert(`Film "${namaFilm}" dipilih!`);
+    
+    // Redirect ke halaman pilih kursi
+    window.location.href = 'pilih_kursi.html';
+}
 
 // Handle logout dengan custom modal
 function handleLogout() {
-    console.log('handleLogout called from logout.js');
+    console.log('handleLogout called');
     showLogoutModal();
 }
 
@@ -82,74 +231,58 @@ function closeLogoutModal() {
     }
 }
 
-// Confirm logout
+// Confirm logout menggunakan Singleton
 function confirmLogout() {
-    console.log('Logout confirmed');
+    console.log('confirmLogout called');
     
-    // Hapus session
-    localStorage.removeItem('currentUser');
-    
-    // Show success alert
-    showAlert('Logout berhasil! Anda akan diarahkan ke halaman utama.', 'success');
-    
-    // Close modal
-    closeLogoutModal();
-    
-    // Redirect ke landing page setelah 1.5 detik
-    setTimeout(() => {
-        window.location.href = 'landing_page.html';
-    }, 1500);
-}
-
-// Show alert function
-function showAlert(message, type) {
-    // Hapus alert yang ada
-    const existingAlert = document.querySelector('.alert');
-    if (existingAlert) {
-        existingAlert.remove();
-    }
-    
-    // Buat alert baru
-    const alert = document.createElement('div');
-    alert.className = `alert alert-${type}`;
-    alert.innerHTML = `
-        <span class="alert-message">${message}</span>
-        <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
-    `;
-    
-    // Tambahkan ke body
-    document.body.appendChild(alert);
-    
-    // Auto remove setelah 5 detik
-    setTimeout(() => {
-        if (alert.parentElement) {
-            alert.remove();
+    try {
+        if (sessionManager) {
+            console.log('Using Singleton for logout');
+            sessionManager.logout(); // Will trigger observer
+        } else {
+            throw new Error('SessionManager not available');
         }
-    }, 5000);
-}
-
-// Fungsi untuk menyimpan film yang dipilih dan redirect ke pilih_kursi.html
-function pilihFilm(namaFilm) {
-    // Cek apakah user masih login
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    
-    if (!currentUser) {
-        showAlert('Session expired. Please login again.', 'error');
+    } catch (error) {
+        console.log('Using fallback logout');
+        // Fallback logout
+        localStorage.removeItem('currentUser');
+        
+        if (notificationManager) {
+            notificationManager.success('Logout berhasil!');
+        } else {
+            alert('Logout berhasil!');
+        }
+        
         setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 2000);
-        return;
+            window.location.href = 'landing_page.html';
+        }, 1500);
     }
     
-    // Simpan informasi film yang dipilih
-    const movieInfo = {
-        title: namaFilm,
-        selectedBy: currentUser.username,
-        selectedAt: new Date().toISOString()
-    };
-    
-    localStorage.setItem('selectedMovie', JSON.stringify(movieInfo));
-    
-    // Redirect ke halaman pilih kursi
-    window.location.href = 'pilih_kursi.html';
+    closeLogoutModal();
 }
+
+// Testing functions - hapus di production
+function testSingletons() {
+    console.log('=== Testing Singletons ===');
+    
+    const session1 = SessionManager.getInstance();
+    const session2 = SessionManager.getInstance();
+    console.log('SessionManager - Same instance?', session1 === session2);
+    
+    const movie1 = MovieManager.getInstance();
+    const movie2 = MovieManager.getInstance();
+    console.log('MovieManager - Same instance?', movie1 === movie2);
+    
+    const notif1 = NotificationManager.getInstance();
+    const notif2 = NotificationManager.getInstance();
+    console.log('NotificationManager - Same instance?', notif1 === notif2);
+    
+    console.log('Current user:', session1.getCurrentUser());
+    console.log('Available movies:', movie1.getAvailableMovies());
+}
+
+// Expose untuk testing di console
+window.testSingletons = testSingletons;
+window.sessionManager = () => sessionManager;
+window.movieManager = () => movieManager;
+window.notificationManager = () => notificationManager;

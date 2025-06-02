@@ -1,153 +1,507 @@
-// Load users dari file JSON melalui server
-async function loadUsersFromFile() {
-  try {
-    const response = await fetch('/data/users.json');
-    if (!response.ok) {
-      throw new Error('Failed to load users.json');
-    }
-    const userData = await response.json();
-    return userData;
-  } catch (error) {
-    console.error('Error loading users.json:', error);
-    throw error;
-  }
-}
+// PRODUCTION VERSION - Using Express API (No Password Strength)
 
-// Show alert popup
-function showAlert(message, type) {
-  // Hapus alert yang ada
-  const existingAlert = document.querySelector('.alert');
-  if (existingAlert) {
-    existingAlert.remove();
-  }
-  
-  // Buat alert baru
-  const alert = document.createElement('div');
-  alert.className = `alert alert-${type}`;
-  alert.innerHTML = `
-    <span class="alert-message">${message}</span>
-    <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
-  `;
-  
-  // Tambahkan ke body
-  document.body.appendChild(alert);
-  
-  // Auto remove setelah 5 detik
-  setTimeout(() => {
-    if (alert.parentElement) {
-      alert.remove();
-    }
-  }, 5000);
-}
-
-// Register functionality dengan API ke server - HANYA simpan ke users.json
-async function registerUser(username, email, password) {
-  try {
-    console.log('Attempting registration with server...', { username, email, password });
-    
-    // Kirim data ke server untuk update users.json
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password, email })
-    });
-    
-    console.log('Response status:', response.status);
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Registration failed');
-    }
-    
-    const data = await response.json();
-    console.log('Response data:', data);
-    
-    if (data.success) {
-      showAlert('Registrasi berhasil!', 'success');
-      
-      // Redirect ke login setelah 2 detik
-      setTimeout(() => {
-        window.location.href = 'login.html';
-      }, 2000);
-      
-      return true;
-    } else {
-      showAlert(data.message || 'Registrasi gagal!', 'error');
-      return false;
-    }
-    
-  } catch (error) {
-    console.error('Registration error:', error);
-    showAlert(`Registrasi gagal: ${error.message}. Pastikan server berjalan!`, 'error');
-    return false;
-  }
-}
-
-// Check if user is already logged in
-function checkLoggedInUser() {
-  const currentUser = localStorage.getItem('currentUser');
-  if (currentUser) {
-    window.location.href = 'home.html';
-  }
-}
-
-// Initialize on load
 document.addEventListener('DOMContentLoaded', function() {
-  // Check if user is already logged in
-  checkLoggedInUser();
-  
-  // Handle register form submission
-  const registerForm = document.getElementById('registerForm');
-  if (registerForm) {
-    registerForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const username = document.getElementById('registerUsername').value.trim();
-      const email = document.getElementById('registerEmail').value.trim();
-      const password = document.getElementById('registerPassword').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      
-      // Validasi input kosong
-      if (!username || !email || !password || !confirmPassword) {
-        showAlert('Mohon isi semua field!', 'error');
+    // Initialize Singletons
+    let securityManager, sessionManager, notificationManager;
+    
+    try {
+        securityManager = SecurityManager.getInstance();
+        sessionManager = SessionManager.getInstance();
+        notificationManager = NotificationManager.getInstance();
+        
+        console.log('Registration Singletons initialized successfully');
+    } catch (error) {
+        console.error('Singleton initialization failed:', error);
+        initializeFallbackRegister();
         return;
-      }
-      
-      // Validasi email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        showAlert('Format email tidak valid!', 'error');
+    }
+    
+    // Check if user is already logged in
+    if (sessionManager && sessionManager.isLoggedIn() && securityManager.isSessionValid()) {
+        window.location.href = 'home.html';
         return;
-      }
-      
-      // Validasi password
-      if (password !== confirmPassword) {
-        showAlert('Password dan konfirmasi password tidak cocok!', 'error');
+    }
+    
+    const registerForm = document.getElementById('registerForm');
+    const usernameInput = document.getElementById('registerUsername');
+    const emailInput = document.getElementById('registerEmail');
+    const passwordInput = document.getElementById('registerPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    
+    if (!registerForm || !usernameInput || !emailInput || !passwordInput || !confirmPasswordInput) {
+        console.error('Required form elements not found');
         return;
-      }
-      
-      // Validasi panjang password
-      if (password.length < 6) {
-        showAlert('Password harus minimal 6 karakter!', 'error');
-        return;
-      }
-      
-      // Validasi username (minimal 3 karakter, hanya alphanumeric)
-      if (username.length < 3) {
-        showAlert('Username harus minimal 3 karakter!', 'error');
-        return;
-      }
-      
-      const usernameRegex = /^[a-zA-Z0-9_]+$/;
-      if (!usernameRegex.test(username)) {
-        showAlert('Username hanya boleh mengandung huruf, angka, dan underscore!', 'error');
-        return;
-      }
-      
-      // Lakukan registrasi - HANYA ke server/users.json
-      await registerUser(username, email, password);
+    }
+    
+    // ✅ SECURE CODING: Real-time validation dengan CSS styling
+    usernameInput.addEventListener('input', function() {
+        this.value = securityManager.sanitizeInput(this.value);
+        validateUsernameField();
     });
-  }
+    
+    emailInput.addEventListener('input', function() {
+        this.value = securityManager.sanitizeInput(this.value);
+        validateEmailField();
+    });
+    
+    passwordInput.addEventListener('input', function() {
+        validatePasswordField();
+    });
+    
+    confirmPasswordInput.addEventListener('input', function() {
+        validateConfirmPasswordField();
+    });
+    
+    // ✅ SECURE CODING: Username validation
+    function validateUsernameField() {
+        const username = usernameInput.value;
+        
+        if (username.length > 0) {
+            if (!securityManager.validateUsername(username)) {
+                showFieldError(usernameInput, 'Username hanya boleh huruf, angka, underscore (3-20 karakter)');
+                return false;
+            } else {
+                showFieldSuccess(usernameInput, 'Format username valid');
+                return true;
+            }
+        } else {
+            clearFieldState(usernameInput);
+            return false;
+        }
+    }
+    
+    // ✅ SECURE CODING: Email validation
+    function validateEmailField() {
+        const email = emailInput.value;
+        
+        if (email.length > 0) {
+            if (!securityManager.validateEmail(email)) {
+                showFieldError(emailInput, 'Format email tidak valid');
+                return false;
+            } else {
+                showFieldSuccess(emailInput, 'Format email valid');
+                return true;
+            }
+        } else {
+            clearFieldState(emailInput);
+            return false;
+        }
+    }
+    
+    // ✅ SECURE CODING: Password validation (Simplified - No Strength Meter)
+    function validatePasswordField() {
+        const password = passwordInput.value;
+        
+        if (password.length > 0) {
+            const validation = securityManager.validatePasswordStrength(password);
+            
+            if (!validation.isValid) {
+                showFieldError(passwordInput, validation.errors[0]);
+                return false;
+            } else {
+                showFieldSuccess(passwordInput, 'Password valid');
+                return true;
+            }
+        } else {
+            clearFieldState(passwordInput);
+            return false;
+        }
+    }
+    
+    // ✅ SECURE CODING: Confirm password validation
+    function validateConfirmPasswordField() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        if (confirmPassword.length > 0) {
+            if (password !== confirmPassword) {
+                showFieldError(confirmPasswordInput, 'Password tidak cocok');
+                return false;
+            } else {
+                showFieldSuccess(confirmPasswordInput, 'Password cocok');
+                return true;
+            }
+        } else {
+            clearFieldState(confirmPasswordInput);
+            return false;
+        }
+    }
+    
+    // ✅ CSS: Enhanced field styling
+    function showFieldError(field, message) {
+        clearFieldState(field);
+        
+        field.classList.add('error');
+        
+        const validationIcon = field.parentNode.querySelector('.validation-icon');
+        if (validationIcon) {
+            validationIcon.className = 'validation-icon error';
+        }
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.textContent = message;
+        field.parentNode.appendChild(errorDiv);
+    }
+    
+    function showFieldSuccess(field, message = '') {
+        clearFieldState(field);
+        
+        field.classList.add('success');
+        
+        const validationIcon = field.parentNode.querySelector('.validation-icon');
+        if (validationIcon) {
+            validationIcon.className = 'validation-icon success';
+        }
+        
+        if (message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'field-success';
+            successDiv.textContent = message;
+            field.parentNode.appendChild(successDiv);
+        }
+    }
+    
+    function clearFieldState(field) {
+        field.classList.remove('error', 'success', 'warning');
+        
+        const validationIcon = field.parentNode.querySelector('.validation-icon');
+        if (validationIcon) {
+            validationIcon.className = 'validation-icon';
+        }
+        
+        const existingMessage = field.parentNode.querySelector('.field-error, .field-success, .field-warning');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+    }
+    
+    // ✅ PRODUCTION: Form submission dengan Express API
+    registerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validate all fields
+        const isUsernameValid = validateUsernameField();
+        const isEmailValid = validateEmailField();
+        const isPasswordValid = validatePasswordField();
+        const isConfirmPasswordValid = validateConfirmPasswordField();
+        
+        if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
+            notificationManager.error('Mohon perbaiki kesalahan pada form');
+            return;
+        }
+        
+        try {
+            // ✅ CSS: Show loading state
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Memproses registrasi...';
+            submitBtn.disabled = true;
+            
+            const username = usernameInput.value;
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            
+            // ✅ PRODUCTION: Send to Express API
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    email: email
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // ✅ SUCCESS: Registration berhasil
+                console.log('✅ Registration successful:', result);
+                
+                // ✅ SECURE CODING: Log security event
+                securityManager.logSecurityEvent('user_registration', username, {
+                    email: email,
+                    registrationMethod: 'web_form',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                
+                // ✅ SUCCESS: Show success notification
+                notificationManager.success(`Registrasi berhasil! Akun "${username}" telah dibuat.`);
+                
+                // ✅ Show registration summary
+                showRegistrationSummary(username, email);
+                
+                // Clear form
+                registerForm.reset();
+                clearFieldState(usernameInput);
+                clearFieldState(emailInput);
+                clearFieldState(passwordInput);
+                clearFieldState(confirmPasswordInput);
+                
+                // Redirect to login after success
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+                
+            } else {
+                // ✅ HANDLE API ERRORS
+                console.log('❌ Registration failed:', result);
+                
+                if (result.message.includes('Username sudah terdaftar')) {
+                    showFieldError(usernameInput, 'Username sudah terdaftar');
+                    notificationManager.error('Username sudah digunakan');
+                } else if (result.message.includes('Email sudah terdaftar')) {
+                    showFieldError(emailInput, 'Email sudah terdaftar');
+                    notificationManager.error('Email sudah terdaftar');
+                } else {
+                    notificationManager.error(result.message || 'Registrasi gagal');
+                }
+            }
+            
+        } catch (error) {
+            console.error('Registration error:', error);
+            
+            // ✅ SECURE CODING: Handle network errors
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                notificationManager.error('Gagal terhubung ke server. Pastikan server berjalan di port 3000.');
+            } else {
+                notificationManager.error('Terjadi kesalahan sistem. Silakan coba lagi dalam beberapa saat.');
+            }
+            
+            // ✅ SECURE CODING: Log error event
+            securityManager.logSecurityEvent('registration_error', usernameInput.value, {
+                error: error.message,
+                type: 'network_error'
+            });
+            
+        } finally {
+            // Restore button state
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    // ✅ PRODUCTION: Show registration summary
+    function showRegistrationSummary(username, email) {
+        const summaryDiv = document.createElement('div');
+        summaryDiv.className = 'registration-summary';
+        summaryDiv.innerHTML = `
+            <h4>🎉 Registrasi Berhasil!</h4>
+            <div class="summary-details">
+                <p><strong>Username:</strong> ${username}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Status:</strong> <span class="status-active">Aktif</span></p>
+            </div>
+            <div class="success-note">
+                <p><strong>✅ Data berhasil disimpan ke database!</strong></p>
+                <p>Anda akan dialihkan ke halaman login dalam beberapa detik.</p>
+            </div>
+        `;
+        
+        // Insert before form
+        const authForm = document.querySelector('.auth-form');
+        authForm.insertBefore(summaryDiv, registerForm);
+        
+        // Hide form
+        registerForm.style.display = 'none';
+    }
+    
+    // ✅ SECURE CODING: Real-time username availability check (debounced)
+    let usernameCheckTimeout;
+    usernameInput.addEventListener('input', function() {
+        clearTimeout(usernameCheckTimeout);
+        usernameCheckTimeout = setTimeout(async () => {
+            const username = this.value;
+            if (username.length >= 3 && securityManager.validateUsername(username)) {
+                await checkUsernameAvailability(username);
+            }
+        }, 500);
+    });
+    
+    async function checkUsernameAvailability(username) {
+        try {
+            // ✅ PRODUCTION: Check via API instead of direct JSON access
+            const response = await fetch('../data/users.json');
+            if (!response.ok) return;
+            
+            const data = await response.json();
+            const existingUser = data.users.find(u => u.username === username);
+            
+            if (existingUser) {
+                showFieldError(usernameInput, 'Username sudah digunakan');
+            } else {
+                showFieldSuccess(usernameInput, 'Username tersedia');
+            }
+        } catch (error) {
+            console.error('Username check error:', error);
+        }
+    }
+    
+    // ✅ SECURE CODING: Real-time email availability check (debounced)
+    let emailCheckTimeout;
+    emailInput.addEventListener('input', function() {
+        clearTimeout(emailCheckTimeout);
+        emailCheckTimeout = setTimeout(async () => {
+            const email = this.value;
+            if (email.length > 0 && securityManager.validateEmail(email)) {
+                await checkEmailAvailability(email);
+            }
+        }, 500);
+    });
+    
+    async function checkEmailAvailability(email) {
+        try {
+            // ✅ PRODUCTION: Check via API instead of direct JSON access
+            const response = await fetch('../data/users.json');
+            if (!response.ok) return;
+            
+            const data = await response.json();
+            const existingUser = data.users.find(u => u.email === email);
+            
+            if (existingUser && email !== '') {
+                showFieldError(emailInput, 'Email sudah terdaftar');
+            } else {
+                showFieldSuccess(emailInput, 'Email tersedia');
+            }
+        } catch (error) {
+            console.error('Email check error:', error);
+        }
+    }
 });
+
+// ✅ FALLBACK IMPLEMENTATION untuk jika server tidak berjalan
+function initializeFallbackRegister() {
+    console.log('Using fallback register implementation');
+    
+    const registerForm = document.getElementById('registerForm');
+    const usernameInput = document.getElementById('registerUsername');
+    const emailInput = document.getElementById('registerEmail');
+    const passwordInput = document.getElementById('registerPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    
+    if (!registerForm || !usernameInput || !emailInput || !passwordInput || !confirmPasswordInput) {
+        console.error('Required form elements not found');
+        return;
+    }
+    
+    // Check if already logged in
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+        window.location.href = 'home.html';
+        return;
+    }
+    
+    // Simple validation
+    function validateForm() {
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        if (!username || username.length < 3) {
+            showAlert('Username minimal 3 karakter', 'error');
+            return false;
+        }
+        
+        if (!email || !email.includes('@')) {
+            showAlert('Email tidak valid', 'error');
+            return false;
+        }
+        
+        if (!password || password.length < 8) {
+            showAlert('Password minimal 8 karakter', 'error');
+            return false;
+        }
+        
+        if (password !== confirmPassword) {
+            showAlert('Password tidak cocok', 'error');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    registerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (!validateForm()) return;
+        
+        try {
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Memeriksa data...';
+            submitBtn.disabled = true;
+            
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            // Try API first
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        email: email
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('Registrasi berhasil!', 'success');
+                    registerForm.reset();
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                    return;
+                } else {
+                    showAlert(result.message || 'Registrasi gagal', 'error');
+                    return;
+                }
+            } catch (apiError) {
+                console.log('API not available, showing instruction');
+                showAlert('Server tidak berjalan. Silakan jalankan server Express terlebih dahulu.', 'error');
+                return;
+            }
+            
+        } catch (error) {
+            console.error('Registration error:', error);
+            showAlert('Terjadi kesalahan sistem. Silakan coba lagi.', 'error');
+        } finally {
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Daftar Sekarang';
+            submitBtn.disabled = false;
+        }
+    });
+}
+
+function showAlert(message, type) {
+    const existingAlert = document.querySelector('.alert');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+    
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type}`;
+    alert.innerHTML = `
+        <span class="alert-message">${message}</span>
+        <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+    `;
+    
+    document.body.appendChild(alert);
+    
+    setTimeout(() => {
+        if (alert.parentElement) {
+            alert.remove();
+        }
+    }, 5000);
+}

@@ -53,6 +53,24 @@
       "password": "walawe",
       "email": "test@gmail.com",
       "registerDate": "2025-05-31"
+    },
+    {
+      "username": "abuyaa",
+      "password": "walaweaw",
+      "email": "abuyaa@gmail.com",
+      "registerDate": "2025-06-02"
+    },
+    {
+      "username": "dimascahyomargono",
+      "password": "walawe123",
+      "email": "celeng@gmail.com",
+      "registerDate": "2025-06-02"
+    },
+    {
+      "username": "abuyaaw",
+      "password": "walawe123",
+      "email": "gaktauiniemail@gmail.com",
+      "registerDate": "2025-06-02"
     }
   ]
 }

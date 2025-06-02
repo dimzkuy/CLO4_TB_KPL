@@ -447,6 +447,290 @@ body {
   margin-right: 5px;
 }
 
+/* Call to Action Section */
+.cta-section {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.cta-title {
+  margin-bottom: 20px;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  display: inline-block;
+  text-decoration: none;
+  max-width: 200px;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 150px;
+}
+
+.cta-button--primary {
+  background-color: #6f42c1;
+  color: white;
+  border: 2px solid #6f42c1;
+}
+
+.cta-button--primary:hover {
+  background-color: #5a359a;
+  border-color: #5a359a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3);
+}
+
+.cta-button--secondary {
+  background-color: #ffc107;
+  color: #333;
+  border: 2px solid #ffc107;
+}
+
+.cta-button--secondary:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+/* ===== SECURITY FEATURES CSS ===== */
+
+/* Login failed animation untuk secure feedback */
+.login-failed {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Enhanced form field states untuk security validation */
+.form-input.error {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.form-input.success {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+.form-input.warning {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    background-color: rgba(255, 193, 7, 0.05);
+}
+
+/* Enhanced field error messages */
+.field-error {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    border-left: 3px solid #dc3545;
+    padding-left: 10px;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 0 4px 4px 0;
+}
+
+.field-error::before {
+    content: "⚠️";
+    margin-right: 6px;
+    font-size: 11px;
+}
+
+.field-success {
+    color: #28a745;
+    font-size: 12px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    border-left: 3px solid #28a745;
+    padding-left: 10px;
+    background-color: rgba(40, 167, 69, 0.1);
+    border-radius: 0 4px 4px 0;
+}
+
+.field-success::before {
+    content: "✅";
+    margin-right: 6px;
+    font-size: 11px;
+}
+
+/* Additional styles for registration form */
+.field-warning {
+    color: #fd7e14;
+    font-size: 12px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    border-left: 3px solid #fd7e14;
+    padding-left: 10px;
+    background-color: rgba(253, 126, 20, 0.1);
+    border-radius: 0 4px 4px 0;
+}
+
+.field-warning::before {
+    content: "⚠️";
+    margin-right: 6px;
+    font-size: 11px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 15px 0;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.terms-link {
+    color: #ffc107;
+    text-decoration: none;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+/* Enhanced validation for form inputs */
+.form-input.warning {
+    border-color: #fd7e14;
+    box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.25);
+    background-color: rgba(253, 126, 20, 0.05);
+}
+
+/* Loading states untuk security processing */
+.form-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.form-button:disabled::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid transparent;
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Account lockout warning styles */
+.lockout-warning {
+    background: linear-gradient(135deg, #fd7e14 0%, #e66500 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    border-left: 4px solid #fd7e14;
+    display: flex;
+    align-items: center;
+}
+
+.lockout-warning::before {
+    content: "🔒";
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Rate limit indicator */
+.rate-limit-indicator {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid #ffc107;
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px 0;
+    text-align: center;
+    color: #856404;
+    font-size: 14px;
+}
+
+
+
+/* Security log display (for debugging) */
+.security-log {
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #333;
+}
+
+/* Enhanced mobile responsive for security features */
+@media screen and (max-width: 480px) {
+    .field-error,
+    .field-success {
+        font-size: 11px;
+        padding: 4px 0;
+        padding-left: 8px;
+    }
+    
+    .password-strength {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    
+    .alert {
+        min-width: 250px;
+        margin: 0 10px;
+        font-size: 14px;
+    }
+    
+    .lockout-warning {
+        padding: 12px;
+        font-size: 13px;
+    }
+    
+    .session-warning {
+        right: 10px;
+        left: 10px;
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+}
+
 /* Responsive design for home page */
 @media screen and (max-width: 768px) {
   .navbar {
@@ -670,7 +954,594 @@ body {
     }
 }
 
+/* Manual instruction styles */
+.manual-instruction {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.manual-instruction h5 {
+    margin: 0 0 15px 0;
+    color: #fff3cd;
+}
+
+.manual-instruction code {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+.json-code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    margin: 10px 0;
+    border-left: 4px solid #ffc107;
+}
+
+.copy-btn {
+    background: #ffc107;
+    color: #333;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+    background: #e0a800;
+    transform: translateY(-1px);
+}
+
+.simulation-note {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-size: 13px;
+    border-left: 3px solid #ffc107;
+}
+
+.simulation-note p {
+    margin: 5px 0;
+}
+
+.redirect-info {
+    margin-top: 15px;
+    font-style: italic;
+    text-align: center;
+    opacity: 0.9;
+}
+
+#countdown {
+    font-weight: bold;
+    color: #ffc107;
+}
+
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+/* ===== CUSTOM POPUP STYLES ===== */
+
+/* Base popup overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.popup-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Base popup container */
+.popup-modal {
+    background: linear-gradient(135deg, #3a0f91 0%, #2d328e 100%);
+    border-radius: 15px;
+    padding: 0;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    transform: scale(0.8) translateY(-30px);
+    transition: transform 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.popup-overlay.show .popup-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* ===== WELCOME POPUP (Login Success) ===== */
+.welcome-popup {
+    text-align: center;
+}
+
+.welcome-popup .popup-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    padding: 25px 30px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-popup .popup-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.welcome-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-title {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.welcome-popup .popup-body {
+    padding: 30px;
+}
+
+.welcome-user-info {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 auto 15px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.welcome-username {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}
+
+.welcome-email {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.login-time {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.welcome-continue-btn {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a359a 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
+}
+
+.welcome-continue-btn:hover {
+    background: linear-gradient(135deg, #5a359a 0%, #493285 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(111, 66, 193, 0.4);
+}
+
+/* ===== LOADING POPUP (Register/Auth) ===== */
+.loading-popup {
+    text-align: center;
+}
+
+.loading-popup .popup-header {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    padding: 25px 30px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-popup .popup-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: loading-sweep 2s ease-in-out infinite;
+}
+
+.loading-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+    color: white;
+    animation: spin 2s linear infinite;
+}
+
+.loading-title {
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.loading-popup .popup-body {
+    padding: 30px;
+}
+
+.loading-message {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.loading-progress {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ffc107, #fd7e14, #ffc107);
+    background-size: 200% 100%;
+    border-radius: 3px;
+    animation: loading-progress 2s ease-in-out infinite;
+}
+
+.loading-steps {
+    text-align: left;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.loading-step {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    transition: all 0.3s ease;
+}
+
+.loading-step.active {
+    color: #ffc107;
+    font-weight: 500;
+}
+
+.loading-step.completed {
+    color: #28a745;
+}
+
+.loading-step-icon {
+    margin-right: 10px;
+    font-size: 14px;
+    width: 16px;
+}
+
+/* ===== LOGOUT SUCCESS POPUP ===== */
+.logout-success-popup {
+    text-align: center;
+}
+
+.logout-success-popup .popup-header {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    padding: 25px 30px 20px;
+    position: relative;
+}
+
+.logout-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.logout-title {
+    color: white;
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.logout-success-popup .popup-body {
+    padding: 30px;
+}
+
+.logout-message {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.logout-info {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 25px;
+    border-left: 4px solid #ffc107;
+}
+
+.logout-info p {
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.logout-redirect-btn {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a359a 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.logout-redirect-btn:hover {
+    background: linear-gradient(135deg, #5a359a 0%, #493285 100%);
+    transform: translateY(-2px);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes shimmer {
+    0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+@keyframes loading-sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes loading-progress {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media screen and (max-width: 480px) {
+    .popup-modal {
+        margin: 20px;
+        max-width: none;
+        width: calc(100% - 40px);
+    }
+    
+    .welcome-title,
+    .loading-title,
+    .logout-title {
+        font-size: 1.4rem;
+    }
+    
+    .welcome-icon,
+    .loading-icon,
+    .logout-icon {
+        font-size: 36px;
+    }
+    
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .welcome-popup .popup-header,
+    .loading-popup .popup-header,
+    .logout-success-popup .popup-header {
+        padding: 20px 25px 15px;
+    }
+    
+    .welcome-popup .popup-body,
+    .loading-popup .popup-body,
+    .logout-success-popup .popup-body {
+        padding: 25px 20px;
+    }
+    
+    .welcome-user-info {
+        padding: 15px;
+    }
+    
+    .welcome-username {
+        font-size: 1.1rem;
+    }
+    
+    .welcome-continue-btn,
+    .logout-redirect-btn {
+        padding: 10px 25px;
+        font-size: 15px;
+    }
+}
+
+/* ===== ENHANCED LOADING STATES ===== */
+
+/* Form button loading state yang konsisten */
+.form-button.loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.form-button.loading::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Loading overlay untuk halaman */
+.page-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3a0f91 0%, #2d328e 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10002;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.page-loading-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.page-loading-content {
+    text-align: center;
+    color: white;
+}
+
+.page-loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid #ffc107;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+.page-loading-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.page-loading-subtext {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+
+/* Focus states untuk popup buttons */
+.welcome-continue-btn:focus,
+.logout-redirect-btn:focus {
+    outline: 3px solid #ffc107;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .popup-modal {
+        border-width: 3px;
+        border-color: white;
+    }
+    
+    .welcome-continue-btn,
+    .logout-redirect-btn {
+        border: 2px solid white;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .popup-overlay,
+    .popup-modal,
+    .loading-icon,
+    .loading-progress-bar,
+    .page-loading-spinner {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .popup-overlay.show .popup-modal {
+        transform: scale(1) translateY(0) !important;
+    }
+}
+
+/* ===== DARK MODE ENHANCEMENTS ===== */
+@media (prefers-color-scheme: dark) {
+    .popup-modal {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+    }
+    
+    .welcome-user-info,
+    .logout-info {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
 }
