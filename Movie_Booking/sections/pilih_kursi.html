@@ -1,115 +1,117 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pilih Kursi - CinemaBook</title>
-    <link rel="stylesheet" href="../styles/style.css" />
-  </head>
 
-  <body>
-    <div class="container">
-      <h2 id="judulFilm"></h2>
-      <div class="screen">LAYAR</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pilih Kursi - CinemaBook</title>
+  <link rel="stylesheet" href="../styles/seat.css">
+</head>
 
-      <div id="seat-container"></div>
+<body>
+  <div class="container">
+    <h2 id="judulFilm"></h2>
+    <div class="screen">LAYAR</div>
 
-      <div class="legend">
-        <div class="legend-item">
-          <span class="legend-color available"></span> Tersedia
-        </div>
-        <div class="legend-item">
-          <span class="legend-color selected"></span> Dipilih
-        </div>
-        <div class="legend-item">
-          <span class="legend-color occupied"></span> Terisi
-        </div>
+    <div id="seat-container"></div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-color available"></span> Tersedia
       </div>
-
-      <button id="submit">Konfirmasi</button>
+      <div class="legend-item">
+        <span class="legend-color selected"></span> Dipilih
+      </div>
+      <div class="legend-item">
+        <span class="legend-color occupied"></span> Terisi
+      </div>
     </div>
 
-    <script>
-      const rows = 6;
-      const seatsPerRow = 8;
-      const seatContainer = document.getElementById("seat-container");
-      const submitBtn = document.getElementById("submit");
+    <button id="submit">Konfirmasi</button>
+  </div>
 
-      // Reset kursi terisi agar semua kursi kosong
-      localStorage.removeItem("occupiedSeats");
+  <script>
+    const rows = 6;
+    const seatsPerRow = 8;
+    const seatContainer = document.getElementById("seat-container");
+    const submitBtn = document.getElementById("submit");
 
-      // Ambil data kursi terisi dari localStorage
-      const occupiedSeats =
-        JSON.parse(localStorage.getItem("occupiedSeats")) || [];
+    // Reset kursi terisi agar semua kursi kosong
+    localStorage.removeItem("occupiedSeats");
 
-      // Buat kursi
-      for (let i = 0; i < rows; i++) {
-        const rowDiv = document.createElement("div");
-        rowDiv.classList.add("seat-row");
+    // Ambil data kursi terisi dari localStorage
+    const occupiedSeats =
+      JSON.parse(localStorage.getItem("occupiedSeats")) || [];
 
-        for (let j = 0; j < seatsPerRow; j++) {
-          const seatId = String.fromCharCode(65 + i) + (j + 1);
-          const seat = document.createElement("div");
-          seat.classList.add("seat");
-          seat.textContent = seatId;
+    // Buat kursi
+    for (let i = 0; i < rows; i++) {
+      const rowDiv = document.createElement("div");
+      rowDiv.classList.add("seat-row");
 
-          if (occupiedSeats.includes(seatId)) {
-            seat.classList.add("occupied");
-          }
+      for (let j = 0; j < seatsPerRow; j++) {
+        const seatId = String.fromCharCode(65 + i) + (j + 1);
+        const seat = document.createElement("div");
+        seat.classList.add("seat");
+        seat.textContent = seatId;
 
-          seat.addEventListener("click", () => {
-            if (!seat.classList.contains("occupied")) {
-              seat.classList.toggle("selected");
-            }
-          });
-
-          rowDiv.appendChild(seat);
+        if (occupiedSeats.includes(seatId)) {
+          seat.classList.add("occupied");
         }
 
-        seatContainer.appendChild(rowDiv);
+        seat.addEventListener("click", () => {
+          if (!seat.classList.contains("occupied")) {
+            seat.classList.toggle("selected");
+          }
+        });
+
+        rowDiv.appendChild(seat);
       }
 
-      // Mapping nama film ke gambar
-      const filmImages = {
-        Inception: "../img/Inception.jpeg",
-        Interstellar: "../img/Interstelar.jpeg",
-        "The Dark Knight": "../img/The_Dark_Knight.jpeg",
-        "The Shawshank Redemption": "../img/The_Shawshank_Redemption.jpeg",
-        "The Theory of Everything": "../img/The_Theory_of_Everything.jpeg",
-        "Toy Story 4": "../img/Toy_Story.jpeg",
-      };
-      const film = localStorage.getItem("filmDipilih") || "Film";
-      const filmImage = filmImages[film] || "";
+      seatContainer.appendChild(rowDiv);
+    }
 
-      // Ambil nama film dari localStorage
-      document.getElementById(
-        "judulFilm"
-      ).innerText = `Pilih Kursi Untuk "${film}"`;
+    // Mapping nama film ke gambar
+    const filmImages = {
+      Inception: "../img/Inception.jpeg",
+      Interstellar: "../img/Interstelar.jpeg",
+      "The Dark Knight": "../img/The_Dark_Knight.jpeg",
+      "The Shawshank Redemption": "../img/The_Shawshank_Redemption.jpeg",
+      "The Theory of Everything": "../img/The_Theory_of_Everything.jpeg",
+      "Toy Story 4": "../img/Toy_Story.jpeg",
+    };
+    const film = localStorage.getItem("filmDipilih") || "Film";
+    const filmImage = filmImages[film] || "";
 
-      // Ketika tombol Konfirmasi ditekan
-      submitBtn.addEventListener("click", () => {
-        const selectedSeats = Array.from(
-          document.querySelectorAll(".seat.selected")
-        ).map((seat) => seat.textContent);
-        if (selectedSeats.length === 0) {
-          alert("Silakan pilih minimal satu kursi!");
-          return;
-        }
+    // Ambil nama film dari localStorage
+    document.getElementById(
+      "judulFilm"
+    ).innerText = `Pilih Kursi Untuk "${film}"`;
 
-        // Simpan data film, kursi, dan gambar ke localStorage untuk halaman pembayaran
-        localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
-        localStorage.setItem("selectedFilm", film);
-        localStorage.setItem("selectedFilmImage", filmImage);
+    // Ketika tombol Konfirmasi ditekan
+    submitBtn.addEventListener("click", () => {
+      const selectedSeats = Array.from(
+        document.querySelectorAll(".seat.selected")
+      ).map((seat) => seat.textContent);
+      if (selectedSeats.length === 0) {
+        alert("Silakan pilih minimal satu kursi!");
+        return;
+      }
 
-        // Tambahkan ke kursi terisi
-        const updatedOccupied = [
-          ...new Set([...occupiedSeats, ...selectedSeats]),
-        ];
-        localStorage.setItem("occupiedSeats", JSON.stringify(updatedOccupied));
+      // Simpan data film, kursi, dan gambar ke localStorage untuk halaman pembayaran
+      localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
+      localStorage.setItem("selectedFilm", film);
+      localStorage.setItem("selectedFilmImage", filmImage);
 
-        // Redirect ke halaman pembayaran
-        window.location.href = "payment.html";
-      });
-    </script>
-  </body>
+      // Tambahkan ke kursi terisi
+      const updatedOccupied = [
+        ...new Set([...occupiedSeats, ...selectedSeats]),
+      ];
+      localStorage.setItem("occupiedSeats", JSON.stringify(updatedOccupied));
+
+      // Redirect ke halaman pembayaran
+      window.location.href = "payment.html";
+    });
+  </script>
+</body>
+
 </html>

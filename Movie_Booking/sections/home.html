@@ -94,7 +94,7 @@
 
         <h2 class="section-title">Segera Tayang</h2>
         <div class="movie-container">
-          <div class="movie-card">
+          <div class="movie-card coming-soon">
             <div
               class="movie-poster"
               style="
@@ -108,8 +108,11 @@
                 <span>Coming Soon</span>
               </div>
             </div>
+            <div class="coming-soon-overlay">
+              <span>Segera Tayang</span>
+            </div>
           </div>
-          <div class="movie-card">
+          <div class="movie-card coming-soon">
             <div
               class="movie-poster"
               style="background-image: url('../img/Toy_Story.jpeg')"
@@ -120,6 +123,9 @@
               <div class="movie-rating">
                 <span>Coming Soon</span>
               </div>
+            </div>
+            <div class="coming-soon-overlay">
+              <span>Segera Tayang</span>
             </div>
           </div>
         </div>
@@ -135,8 +141,20 @@
       function pilihFilm(namaFilm) {
         // Simpan nama film ke localStorage
         localStorage.setItem("filmDipilih", namaFilm);
-        // Redirect ke halaman pemilihan kursi
-        window.location.href = "../sections/pilih_kursi.html";
+        
+        // Show notification if available
+        try {
+          const notificationManager = NotificationManager.getInstance();
+          notificationManager.success(`Film "${namaFilm}" dipilih! Pilih jadwal tayang.`);
+        } catch (error) {
+          // Fallback notification
+          console.log(`Film "${namaFilm}" dipilih`);
+        }
+        
+        // Redirect ke halaman jadwal untuk memilih waktu tayang
+        setTimeout(() => {
+          window.location.href = "jadwal.html";
+        }, 500);
       }
     </script>
   </body>
