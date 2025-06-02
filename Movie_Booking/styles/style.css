@@ -2109,6 +2109,7 @@ body {
     margin-top: 8px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2165,6 +2166,7 @@ body {
     
     .movie-description {
         -webkit-line-clamp: 2;
+        line-clamp: 2;
     }
     
     .preview-text {

@@ -77,6 +77,12 @@
       "password": "nyong123",
       "email": "cimeng@gmail.com",
       "registerDate": "2025-06-02"
+    },
+    {
+      "username": "ganteng",
+      "password": "test12345",
+      "email": "walawe@gmail.com",
+      "registerDate": "2025-06-03"
     }
   ]
 }
