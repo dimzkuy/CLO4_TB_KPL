@@ -1,17 +1,25 @@
 {
-  "name": "servers",
-  "version": "1.0.0",
-  "main": "server.js",
+  "name": "cinema-booking-system",
+  "version": "2.0.0",
+  "description": "Cinema Booking System",
+  "main": "app.py",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "python app.py",
+    "dev": "python api/auth_api.py",
+    "install": "pip install -r requirements.txt",
+    "test": "python -m pytest tests/",
+    "lint": "flake8 api/ app.py"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "body-parser": "^2.2.0",
-    "express": "^5.1.0"
-  }
+  "engines": {
+    "python": ">=3.7"
+  },
+  "keywords": [
+    "cinema",
+    "booking",
+    "flask",
+    "python",
+    "movie-theater"
+  ],
+  "author": "Bombardino Crocodilo",
+  "license": "MIT"
 }
