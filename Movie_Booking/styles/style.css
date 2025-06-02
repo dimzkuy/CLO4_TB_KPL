@@ -7,9 +7,14 @@
 }
 
 body {
-    background: linear-gradient(135deg, #3a0f91 0%, #2d328e 100%);
-    color: white;
-    min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to right, #4e54c8, #8f94fb);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 /* Navbar styles */
@@ -104,10 +109,13 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 90px 20px 20px; /* Added top padding for fixed navbar */
+  background: #2c2f5b;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
 }
 
 /* Logo and header */
@@ -1565,4 +1573,144 @@ body {
 .btn-yellow:hover {
   background: #f5a623;
   color: #fff;
+}
+.detail-card {
+  background: #3a1d63;
+  border-radius: 12px;
+  color: #fff;
+  border: none;
+}
+.payment-card {
+  background: #fff;
+  color: #4b2676;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+.payment-card.active,
+.payment-card:hover {
+  border-color: #f7b731;
+  background: #f7e7c1;
+  color: #4b2676;
+}
+.btn-purple {
+  background: #f7b731;
+  color: #4b2676;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.btn-purple:hover {
+  background: #f5a623;
+  color: #fff;
+}
+.label {
+  color: #f7b731;
+  font-weight: 600;
+}
+.input-readonly {
+  background: #eee6ff;
+  color: #4b2676;
+  font-weight: bold;
+  border: none;
+}
+
+.screen {
+  background: #fff;
+  color: #333;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.seat {
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+  border-radius: 6px;
+  background-color: #bbb;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 14px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seat:hover {
+  background-color: #999;
+}
+
+.seat.selected {
+  background-color: #6c63ff;
+  color: #fff;
+}
+
+.seat.occupied {
+  background-color: #444;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.available {
+  background: #bbb;
+}
+
+.selected {
+  background: #6c63ff;
+}
+
+.occupied {
+  background: #444;
+}
+
+#submit {
+  margin-top: 20px;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+#submit:hover {
+  background-color: #5848d9;
+}
+
+@media screen and (max-width: 480px) {
+  .seat {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
 }
