@@ -1,108 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CinemaBook - Home</title>
-  <link rel="stylesheet" href="../styles/style.css" />
-</head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <span class="logo-icon">🎬</span>
-        CinemaBook
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CinemaBook - Home</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <span class="logo-icon">🎬</span>
+          CinemaBook
+        </div>
+        <div class="navbar-user">
+          <div class="user-icon" id="userInitial">U</div>
+          <div class="username" id="usernameDisplay">Username</div>
+          <button class="logout-btn" id="logoutBtn" onclick="handleLogout()">
+            Logout
+          </button>
+        </div>
       </div>
-      <div class="navbar-user">
-        <div class="user-icon" id="userInitial">U</div>
-        <div class="username" id="usernameDisplay">Username</div>
-        <button class="logout-btn" id="logoutBtn" onclick="handleLogout()">Logout</button>
+    </nav>
+
+    <div class="container">
+      <!-- Main content -->
+      <div class="main-content">
+        <h2 class="section-title">Film Yang Sedang Tayang</h2>
+        <div id="now-playing" class="movie-container">
+          <div class="movie-card" onclick="pilihFilm('Inception')">
+            <div
+              class="movie-poster"
+              style="background-image: url('../img/Inception.jpeg')"
+            ></div>
+            <div class="movie-info">
+              <div class="movie-title">Inception</div>
+              <div class="movie-genre">Sci-Fi, Adventure</div>
+              <div class="movie-rating">
+                <span class="rating-star">★</span>
+                <span>4.8/5</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card" onclick="pilihFilm('Interstellar')">
+            <div
+              class="movie-poster"
+              style="background-image: url('../img/Interstelar.jpeg')"
+            ></div>
+            <div class="movie-info">
+              <div class="movie-title">Interstelar</div>
+              <div class="movie-genre">Adventure, Drama, Sci-Fi</div>
+              <div class="movie-rating">
+                <span class="rating-star">★</span>
+                <span>4.7/5</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card" onclick="pilihFilm('The Dark Knight')">
+            <div
+              class="movie-poster"
+              style="background-image: url('../img/The_Dark_Knight.jpeg')"
+            ></div>
+            <div class="movie-info">
+              <div class="movie-title">The Dark Knight</div>
+              <div class="movie-genre">Action, Crime, Drama</div>
+              <div class="movie-rating">
+                <span class="rating-star">★</span>
+                <span>4.9/5</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="movie-card"
+            onclick="pilihFilm('The Shawshank Redemption')"
+          >
+            <div
+              class="movie-poster"
+              style="
+                background-image: url('../img/The_Shawshank_Redemption.jpeg');
+              "
+            ></div>
+            <div class="movie-info">
+              <div class="movie-title">The Shawshank Redemption</div>
+              <div class="movie-genre">Drama, Crime</div>
+              <div class="movie-rating">
+                <span class="rating-star">★</span>
+                <span>4.6/5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Segera Tayang</h2>
+        <div class="movie-container">
+          <div class="movie-card">
+            <div
+              class="movie-poster"
+              style="
+                background-image: url('../img/The_Theory_of_Everything.jpeg');
+              "
+            ></div>
+            <div class="movie-info">
+              <div class="movie-title">The Theory of Everything</div>
+              <div class="movie-genre">Biography, Drama, Romance</div>
+              <div class="movie-rating">
+                <span>Coming Soon</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <div
+              class="movie-poster"
+              style="background-image: url('../img/Toy_Story.jpeg')"
+            ></div>
+            <div class="movie-info">
+              <div class="movie-title">Toy Story 4</div>
+              <div class="movie-genre">Animation, Adventure, Comedy</div>
+              <div class="movie-rating">
+                <span>Coming Soon</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
 
-  <div class="container">
-    <!-- Main content -->
-    <div class="main-content">
-      <h2 class="section-title">Film Yang Sedang Tayang</h2>
-      <div id="now-playing" class="movie-container">
-        <div class="movie-card" onclick="pilihFilm('Inception')">
-          <div class="movie-poster" style="background-image: url('../img/Inception.jpeg')"></div>
-          <div class="movie-info">
-            <div class="movie-title">Inception</div>
-            <div class="movie-genre">Sci-Fi, Adventure</div>
-            <div class="movie-rating">
-              <span class="rating-star">★</span>
-              <span>4.8/5</span>
-            </div>
-          </div>
-        </div>
-        <div class="movie-card" onclick="pilihFilm('Interstellar')">
-          <div class="movie-poster" style="background-image: url('../img/Interstelar.jpeg')"></div>
-          <div class="movie-info">
-            <div class="movie-title">Interstelar</div>
-            <div class="movie-genre">Adventure, Drama, Sci-Fi</div>
-            <div class="movie-rating">
-              <span class="rating-star">★</span>
-              <span>4.7/5</span>
-            </div>
-          </div>
-        </div>
-        <div class="movie-card" onclick="pilihFilm('The Dark Knight')">
-          <div class="movie-poster" style="background-image: url('../img/The_Dark_Knight.jpeg')"></div>
-          <div class="movie-info">
-            <div class="movie-title">The Dark Knight</div>
-            <div class="movie-genre">Action, Crime, Drama</div>
-            <div class="movie-rating">
-              <span class="rating-star">★</span>
-              <span>4.9/5</span>
-            </div>
-          </div>
-        </div>
-        <div class="movie-card" onclick="pilihFilm('The Shawshank Redemption')">
-          <div class="movie-poster" style="background-image: url('../img/The_Shawshank_Redemption.jpeg')"></div>
-          <div class="movie-info">
-            <div class="movie-title">The Shawshank Redemption</div>
-            <div class="movie-genre">Drama, Crime</div>
-            <div class="movie-rating">
-              <span class="rating-star">★</span>
-              <span>4.6/5</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <h2 class="section-title">Segera Tayang</h2>
-      <div class="movie-container">
-        <div class="movie-card">
-          <div class="movie-poster" style="background-image: url('../img/The_Theory_of_Everything.jpeg')"></div>
-          <div class="movie-info">
-            <div class="movie-title">The Theory of Everything</div>
-            <div class="movie-genre">Biography, Drama, Romance</div>
-            <div class="movie-rating">
-              <span>Coming Soon</span>
-            </div>
-          </div>
-        </div>
-        <div class="movie-card">
-          <div class="movie-poster" style="background-image: url('../img/Toy_Story.jpeg')"></div>
-          <div class="movie-info">
-            <div class="movie-title">Toy Story 4</div>
-            <div class="movie-genre">Animation, Adventure, Comedy</div>
-            <div class="movie-rating">
-              <span>Coming Soon</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="../scripts/SessionManager.js"></script>
-  <script src="../scripts/MovieManager.js"></script>
-  <script src="../scripts/NotificationManager.js"></script>
-  <script src="../scripts/logout.js"></script>
-</body>
+    <!-- Scripts -->
+    <script src="../scripts/SessionManager.js"></script>
+    <script src="../scripts/MovieManager.js"></script>
+    <script src="../scripts/NotificationManager.js"></script>
+    <script src="../scripts/logout.js"></script>
+    <script>
+      function pilihFilm(namaFilm) {
+        // Simpan nama film ke localStorage
+        localStorage.setItem("filmDipilih", namaFilm);
+        // Redirect ke halaman pemilihan kursi
+        window.location.href = "../sections/pilih_kursi.html";
+      }
+    </script>
+  </body>
 </html>

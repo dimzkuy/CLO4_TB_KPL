@@ -135,7 +135,7 @@
 
   <body>
     <div class="container">
-      <h2>Pilih Kursi Anda</h2>
+      <h2 id="judulFilm"></h2>
       <div class="screen">LAYAR</div>
 
       <div id="seat-container"></div>
@@ -192,11 +192,11 @@
         seatContainer.appendChild(rowDiv);
       }
 
-      // Ambil nama film dari localStorage dan tampilkan di judul
-      const selectedMovie = localStorage.getItem("filmDipilih");
-      if (selectedMovie) {
-        document.querySelector("h2").textContent = `Pilih Kursi Untuk "${selectedMovie}"`;
-      }
+      // Ambil nama film dari localStorage
+      const film = localStorage.getItem("filmDipilih") || "Film";
+      document.getElementById(
+        "judulFilm"
+      ).innerText = `Pilih Kursi Untuk "${film}"`;
 
       // Ketika tombol Konfirmasi ditekan
       submitBtn.addEventListener("click", () => {

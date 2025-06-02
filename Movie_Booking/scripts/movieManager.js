@@ -23,7 +23,7 @@ class MovieManager {
         return MovieManager.instance;
     }
     
-    // Initialize default movies
+    // Inisialisasi film default
     initializeMovies() {
         this.movies = [
             {
@@ -61,22 +61,22 @@ class MovieManager {
         ];
     }
     
-    // Get all movies
+    // Ambil semua film
     getAllMovies() {
         return this.movies;
     }
     
-    // Get available movies
+    // Ambil film yang tersedia
     getAvailableMovies() {
         return this.movies.filter(movie => movie.available);
     }
     
-    // Get movie by title
+    // Ambil film berdasarkan judul
     getMovieByTitle(title) {
         return this.movies.find(movie => movie.title === title);
     }
     
-    // Select movie
+    // Pilih film
     selectMovie(movieTitle) {
         const movie = this.getMovieByTitle(movieTitle);
         if (movie && movie.available) {
@@ -94,12 +94,12 @@ class MovieManager {
         return false;
     }
     
-    // Get selected movie
+    // Ambil film yang dipilih
     getSelectedMovie() {
         return this.selectedMovie;
     }
     
-    // Load selected movie from localStorage
+    // Load film dari localStorage
     loadSelectedMovie() {
         try {
             const storedMovie = localStorage.getItem(this.movieKey);
@@ -112,7 +112,7 @@ class MovieManager {
         }
     }
     
-    // Clear selected movie
+    // Hapus pilihan film
     clearSelectedMovie() {
         this.selectedMovie = null;
         localStorage.removeItem(this.movieKey);
