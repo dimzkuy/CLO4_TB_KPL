@@ -1,0 +1,56 @@
+body {
+  background: #2d1457;
+}
+
+.main-card {
+  background: #4b2676;
+  color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px 0 rgba(44, 22, 84, 0.15);
+}
+
+.detail-card {
+  background: #3a1d63;
+  border-radius: 12px;
+  color: #fff;
+  border: none;
+}
+
+.payment-card {
+  background: #fff;
+  color: #4b2676;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.payment-card.active,
+.payment-card:hover {
+  border-color: #f7b731;
+  background: #f7e7c1;
+  color: #4b2676;
+}
+
+.btn-purple {
+  background: #f7b731;
+  color: #4b2676;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.btn-purple:hover {
+  background: #f5a623;
+  color: #fff;
+}
+
+.label {
+  color: #f7b731;
+  font-weight: 600;
+}
+
+.input-readonly {
+  background: #eee6ff;
+  color: #4b2676;
+  font-weight: bold;
+  border: none;
+}

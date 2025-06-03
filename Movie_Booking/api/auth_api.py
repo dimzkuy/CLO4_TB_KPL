@@ -10,7 +10,7 @@ CORS(app)
 
 # Configuration
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
-USERS_FILE = os.path.join(DATA_DIR, 'users.json')
+USERS_FILE = os.path.join(DATA_DIR, 'usersData.json')
 
 # Ensure data directory exists
 os.makedirs(DATA_DIR, exist_ok=True)

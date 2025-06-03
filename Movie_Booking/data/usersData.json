@@ -83,6 +83,12 @@
       "password": "test12345",
       "email": "walawe@gmail.com",
       "registerDate": "2025-06-03"
+    },
+    {
+      "username": "weareaaclan",
+      "password": "walawe123",
+      "email": "aaclan@gmail.com",
+      "registerDate": "2025-06-03"
     }
   ]
 }

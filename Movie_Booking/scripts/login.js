@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', function () {
             await new Promise(resolve => setTimeout(resolve, 1000));
             
             // Load users data
-            const response = await fetch('../data/users.json');
+            const response = await fetch('../data/usersData.json');
             if (!response.ok) {
                 transition('AUTH_ERROR', { error: 'Gagal memuat data pengguna', type: 'network' });
                 return;
