@@ -77,6 +77,21 @@ function downloadPDF() {
   doc.setFont("helvetica", "bold");
   doc.text(`Rp ${totalHarga.toLocaleString("id-ID")}`, 50, 105);
 
+  // Tambahkan gambar film di sebelah kanan detail
+  const img = document.getElementById("filmImage");
+  if (img && img.src) {
+    // Buat canvas sementara untuk konversi ke base64
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+    // Atur ukuran gambar di PDF (misal: lebar 50, tinggi proporsional)
+    doc.addImage(imgData, "JPEG", 140, 55, 40, 60);
+  }
+
   // Bottom separator
   doc.setLineWidth(0.5);
   doc.line(20, 120, 190, 120);
