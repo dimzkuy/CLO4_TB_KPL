@@ -203,23 +203,6 @@
     <!-- JavaScript Files -->
     <script src="../scripts/UI.js"></script>
     <script src="../scripts/navbar.js"></script>
-    <script>
-        // Prevent clicking on movie cards
-        document.addEventListener('DOMContentLoaded', function() {
-            const movieCards = document.querySelectorAll('.movie-preview');
-            
-            movieCards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Show login prompt
-                    const confirmLogin = confirm('Anda perlu login terlebih dahulu untuk memesan tiket. Ingin login sekarang?');
-                    if (confirmLogin) {
-                        window.location.href = 'login.html';
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="../scripts/film_landing.js"></script>
 </body>
 </html>

@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Cinema Booking System - Main Application Entry Point
-Flask API + Frontend Integration
-"""
 import os
 import sys
 import subprocess

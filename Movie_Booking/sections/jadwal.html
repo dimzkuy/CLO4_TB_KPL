@@ -34,7 +34,7 @@
 
         <!-- Selected Movie Info -->
         <div class="selected-movie-info" id="selectedMovieInfo">
-            <!-- Will be populated by JavaScript -->
+            <h2 id="filmTitle">Loading...</h2>
         </div>
 
         <!-- Header Section -->
@@ -59,10 +59,19 @@
 
     <!-- Scripts -->
     <script src="../scripts/SessionManager.js"></script>
-    <script src="../scripts/MovieManager.js"></script>
     <script src="../scripts/NotificationManager.js"></script>
-    <script src="../scripts/ScheduleManager.js"></script>
     <script src="../scripts/logout.js"></script>
+    <script>
+        // Debug information
+        console.log('Selected film from localStorage:', localStorage.getItem('filmDipilih'));
+        
+        // Check if film is selected
+        const selectedFilm = localStorage.getItem('filmDipilih');
+        if (!selectedFilm) {
+            console.error('No film selected, redirecting to home');
+            window.location.href = 'home.html';
+        }
+    </script>
     <script src="../scripts/jadwal.js"></script>
 </body>
 </html>

@@ -1,0 +1,83 @@
+const rows = 6;
+const seatsPerRow = 8;
+const seatContainer = document.getElementById("seat-container");
+const submitBtn = document.getElementById("submit");
+
+// Ambil data dari localStorage
+const film = localStorage.getItem("filmDipilih") || "Film";
+const tanggal = localStorage.getItem("selectedDate") || new Date().toISOString().split('T')[0];
+const jam = localStorage.getItem("selectedShowTime") || "19:00";
+
+// Buat booking key yang unik untuk kombinasi film, tanggal, dan jam
+const bookingKey = `seats_${film}_${tanggal}_${jam}`;
+console.log("Booking key:", bookingKey); // Debug log
+
+const occupiedSeats = JSON.parse(localStorage.getItem(bookingKey)) || [];
+
+const filmImages = {
+  Inception: "../img/Inception.jpeg",
+  Interstellar: "../img/Interstelar.jpeg",
+  "The Dark Knight": "../img/The_Dark_Knight.jpeg",
+  "The Shawshank Redemption": "../img/The_Shawshank_Redemption.jpeg",
+  "The Theory of Everything": "../img/The_Theory_of_Everything.jpeg",
+  "Toy Story 4": "../img/Toy_Story.jpeg",
+};
+const filmImage = filmImages[film] || "";
+
+document.getElementById("judulFilm").innerText = `Pilih Kursi Untuk "${film}" - ${jam} (${tanggal})`;
+
+// Reset kursi untuk debugging - hapus ini di production
+// localStorage.removeItem(bookingKey);
+
+// Buat kursi
+for (let i = 0; i < rows; i++) {
+  const rowDiv = document.createElement("div");
+  rowDiv.classList.add("seat-row");
+
+  for (let j = 0; j < seatsPerRow; j++) {
+    const seatId = String.fromCharCode(65 + i) + (j + 1);
+    const seat = document.createElement("div");
+    seat.classList.add("seat");
+    seat.setAttribute("data-kursi", seatId);
+    seat.textContent = seatId;
+
+    if (occupiedSeats.includes(seatId)) {
+      seat.classList.add("occupied");
+    }
+
+    seat.addEventListener("click", () => {
+      if (!seat.classList.contains("occupied")) {
+        seat.classList.toggle("selected");
+      }
+    });
+
+    rowDiv.appendChild(seat);
+  }
+
+  seatContainer.appendChild(rowDiv);
+}
+
+// Ketika tombol Konfirmasi ditekan
+submitBtn.addEventListener("click", () => {
+  const selectedSeats = Array.from(
+    document.querySelectorAll(".seat.selected")
+  ).map((seat) => seat.dataset.kursi);
+
+  if (selectedSeats.length === 0) {
+    alert("Silakan pilih minimal satu kursi!");
+    return;
+  }
+
+  // Simpan kursi terpilih untuk jadwal spesifik ini
+  const updatedOccupied = [...new Set([...occupiedSeats, ...selectedSeats])];
+  localStorage.setItem(bookingKey, JSON.stringify(updatedOccupied));
+
+  // Simpan data untuk payment
+  localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
+  localStorage.setItem("selectedFilm", film);
+  localStorage.setItem("selectedFilmImage", filmImage);
+
+  console.log("Seats saved for:", bookingKey, selectedSeats); // Debug log
+
+  window.location.href = "payment.html";
+});
