@@ -1,20 +1,25 @@
-const rows = 6;
-const seatsPerRow = 8;
-const seatContainer = document.getElementById("seat-container");
-const submitBtn = document.getElementById("submit");
+// Constants - dapat digunakan kembali di file lain
+const THEATER_CONFIG = {
+  ROWS: 6,
+  SEATS_PER_ROW: 8
+};
 
-// Ambil data dari localStorage
-const film = localStorage.getItem("filmDipilih") || "Film";
-const tanggal = localStorage.getItem("selectedDate") || new Date().toISOString().split('T')[0];
-const jam = localStorage.getItem("selectedShowTime") || "19:00";
+const STORAGE_KEYS = {
+  SELECTED_FILM: "filmDipilih",
+  SELECTED_DATE: "selectedDate",
+  SELECTED_SHOWTIME: "selectedShowTime",
+  SELECTED_SEATS: "selectedSeats",
+  SELECTED_FILM_IMAGE: "selectedFilmImage"
+};
 
-// Buat booking key yang unik untuk kombinasi film, tanggal, dan jam
-const bookingKey = `seats_${film}_${tanggal}_${jam}`;
-console.log("Booking key:", bookingKey); // Debug log
+const CSS_CLASSES = {
+  SEAT_ROW: "seat-row",
+  SEAT: "seat",
+  SELECTED: "selected",
+  OCCUPIED: "occupied"
+};
 
-const occupiedSeats = JSON.parse(localStorage.getItem(bookingKey)) || [];
-
-const filmImages = {
+const FILM_IMAGES = {
   Inception: "../img/Inception.jpeg",
   Interstellar: "../img/Interstelar.jpeg",
   "The Dark Knight": "../img/The_Dark_Knight.jpeg",
@@ -22,62 +27,129 @@ const filmImages = {
   "The Theory of Everything": "../img/The_Theory_of_Everything.jpeg",
   "Toy Story 4": "../img/Toy_Story.jpeg",
 };
-const filmImage = filmImages[film] || "";
 
+// Utility Functions - dapat digunakan kembali
+function getFromLocalStorage(key, defaultValue = null) {
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : defaultValue;
+}
+
+function saveToLocalStorage(key, data) {
+  localStorage.setItem(key, typeof data === 'string' ? data : JSON.stringify(data));
+}
+
+function createBookingKey(film, date, time) {
+  return `seats_${film}_${date}_${time}`;
+}
+
+function generateSeatId(rowIndex, seatIndex) {
+  return String.fromCharCode(65 + rowIndex) + (seatIndex + 1);
+}
+
+function createElement(tag, className, textContent = '', attributes = {}) {
+  const element = document.createElement(tag);
+  if (className) element.classList.add(className);
+  if (textContent) element.textContent = textContent;
+  
+  Object.entries(attributes).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  
+  return element;
+}
+
+function getSelectedSeats() {
+  return Array.from(document.querySelectorAll(".seat.selected"))
+    .map((seat) => seat.dataset.kursi);
+}
+
+function validateSeatSelection(seats) {
+  if (seats.length === 0) {
+    alert("Silakan pilih minimal satu kursi!");
+    return false;
+  }
+  return true;
+}
+
+// DOM Elements
+const seatContainer = document.getElementById("seat-container");
+const submitBtn = document.getElementById("submit");
+
+// Get booking data - menggunakan reusable functions
+const film = localStorage.getItem(STORAGE_KEYS.SELECTED_FILM) || "Film";
+const tanggal = localStorage.getItem(STORAGE_KEYS.SELECTED_DATE) || new Date().toISOString().split('T')[0];
+const jam = localStorage.getItem(STORAGE_KEYS.SELECTED_SHOWTIME) || "19:00";
+
+const bookingKey = createBookingKey(film, tanggal, jam);
+console.log("Booking key:", bookingKey);
+
+const occupiedSeats = getFromLocalStorage(bookingKey, []);
+const filmImage = FILM_IMAGES[film] || "";
+
+// Set page title
 document.getElementById("judulFilm").innerText = `Pilih Kursi Untuk "${film}" - ${jam} (${tanggal})`;
 
-// Reset kursi untuk debugging - hapus ini di production
-// localStorage.removeItem(bookingKey);
+// Seat creation - menggunakan reusable functions
+function createSeatElement(seatId, isOccupied) {
+  const seat = createElement('div', CSS_CLASSES.SEAT, seatId, {
+    'data-kursi': seatId
+  });
 
-// Buat kursi
-for (let i = 0; i < rows; i++) {
-  const rowDiv = document.createElement("div");
-  rowDiv.classList.add("seat-row");
+  if (isOccupied) {
+    seat.classList.add(CSS_CLASSES.OCCUPIED);
+  }
 
-  for (let j = 0; j < seatsPerRow; j++) {
-    const seatId = String.fromCharCode(65 + i) + (j + 1);
-    const seat = document.createElement("div");
-    seat.classList.add("seat");
-    seat.setAttribute("data-kursi", seatId);
-    seat.textContent = seatId;
-
-    if (occupiedSeats.includes(seatId)) {
-      seat.classList.add("occupied");
+  seat.addEventListener("click", () => {
+    if (!seat.classList.contains(CSS_CLASSES.OCCUPIED)) {
+      seat.classList.toggle(CSS_CLASSES.SELECTED);
     }
+  });
 
-    seat.addEventListener("click", () => {
-      if (!seat.classList.contains("occupied")) {
-        seat.classList.toggle("selected");
-      }
-    });
+  return seat;
+}
 
+function createSeatRow(rowIndex) {
+  const rowDiv = createElement('div', CSS_CLASSES.SEAT_ROW);
+
+  for (let j = 0; j < THEATER_CONFIG.SEATS_PER_ROW; j++) {
+    const seatId = generateSeatId(rowIndex, j);
+    const isOccupied = occupiedSeats.includes(seatId);
+    const seat = createSeatElement(seatId, isOccupied);
     rowDiv.appendChild(seat);
   }
 
-  seatContainer.appendChild(rowDiv);
+  return rowDiv;
 }
 
-// Ketika tombol Konfirmasi ditekan
-submitBtn.addEventListener("click", () => {
-  const selectedSeats = Array.from(
-    document.querySelectorAll(".seat.selected")
-  ).map((seat) => seat.dataset.kursi);
+// Build theater seating
+function buildTheaterSeating() {
+  for (let i = 0; i < THEATER_CONFIG.ROWS; i++) {
+    const rowDiv = createSeatRow(i);
+    seatContainer.appendChild(rowDiv);
+  }
+}
 
-  if (selectedSeats.length === 0) {
-    alert("Silakan pilih minimal satu kursi!");
+// Handle seat booking
+function handleSeatBooking() {
+  const selectedSeats = getSelectedSeats();
+  
+  if (!validateSeatSelection(selectedSeats)) {
     return;
   }
 
-  // Simpan kursi terpilih untuk jadwal spesifik ini
+  // Update occupied seats
   const updatedOccupied = [...new Set([...occupiedSeats, ...selectedSeats])];
-  localStorage.setItem(bookingKey, JSON.stringify(updatedOccupied));
+  saveToLocalStorage(bookingKey, updatedOccupied);
 
-  // Simpan data untuk payment
-  localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
-  localStorage.setItem("selectedFilm", film);
-  localStorage.setItem("selectedFilmImage", filmImage);
+  // Save booking data
+  saveToLocalStorage(STORAGE_KEYS.SELECTED_SEATS, selectedSeats);
+  saveToLocalStorage(STORAGE_KEYS.SELECTED_FILM, film);
+  saveToLocalStorage(STORAGE_KEYS.SELECTED_FILM_IMAGE, filmImage);
 
-  console.log("Seats saved for:", bookingKey, selectedSeats); // Debug log
-
+  console.log("Seats saved for:", bookingKey, selectedSeats);
   window.location.href = "payment.html";
-});
+}
+
+// Initialize
+buildTheaterSeating();
+submitBtn.addEventListener("click", handleSeatBooking);
