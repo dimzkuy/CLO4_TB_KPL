@@ -7,7 +7,11 @@ class SessionManager {
         
         this.currentUser = null;
         this.sessionKey = 'currentUser';
+        this.sessionInitKey = 'sessionInitialized';
         this.observers = [];
+        
+        // Check if this is a fresh browser session
+        this.checkFreshSession();
         
         // Load existing session
         this.loadSession();
@@ -22,6 +26,17 @@ class SessionManager {
             SessionManager.instance = new SessionManager();
         }
         return SessionManager.instance;
+    }
+    
+    // Check if this is a fresh browser session
+    checkFreshSession() {
+        // If sessionStorage doesn't have the init flag, it's a fresh session
+        if (!sessionStorage.getItem(this.sessionInitKey)) {
+            // Clear any stored login data from previous browser sessions
+            localStorage.removeItem(this.sessionKey);
+            // Mark this session as initialized
+            sessionStorage.setItem(this.sessionInitKey, 'true');
+        }
     }
     
     // Login user

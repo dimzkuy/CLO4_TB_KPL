@@ -60,7 +60,6 @@ paymentMethods.forEach((method) => {
 // Select payment method function
 function selectPaymentMethod(id, element) {
     selectedPayment = id;
-    console.log('Payment method selected:', id); // Debug log
     document.querySelectorAll(".payment-card")
         .forEach((el) => el.classList.remove("active"));
     element.classList.add("active");
@@ -98,28 +97,53 @@ function showFallbackNotification(message, type = 'info') {
     }
 }
 
+// ✅ SECURE: Input validation functions (tambahkan di atas)
+function validatePaymentMethod(method) {
+    const allowedMethods = ['credit-card', 'paypal', 'mobile-wallet', 'bank-transfer'];
+    return method && typeof method === 'string' && allowedMethods.includes(method.trim());
+}
+
+function validateAmount(amount) {
+    const numAmount = Number(amount);
+    return !isNaN(numAmount) && isFinite(numAmount) && numAmount > 0 && numAmount <= 10000000;
+}
+
+function sanitizeString(input) {
+    if (typeof input !== 'string') return '';
+    return input.trim().replace(/[<>'"&]/g, '').substring(0, 1000);
+}
+
 // Payment button event listener
 document.getElementById("payBtn").addEventListener("click", () => {
     console.log('Payment button clicked');
     console.log('Selected payment:', selectedPayment);
     
-    // Validation dengan fallback notification
-    if (!selectedPayment) {
-        showFallbackNotification("Pilih metode pembayaran terlebih dahulu!", 'warning');
+    // ✅ SECURE: Enhanced validation dengan whitelist checking
+    if (!selectedPayment || !validatePaymentMethod(selectedPayment)) {
+        showFallbackNotification("Pilih metode pembayaran yang valid!", 'warning');
         return;
     }
     
     const amount = document.getElementById("amount").value;
     console.log('Amount:', amount);
     
-    if (!amount || amount <= 0) {
-        showFallbackNotification("Masukkan jumlah pembayaran yang valid!", 'error');
+    // ✅ SECURE: Enhanced amount validation dengan range checking
+    if (!amount || !validateAmount(amount)) {
+        showFallbackNotification("Masukkan jumlah pembayaran yang valid! (Max: Rp 10.000.000)", 'error');
+        return;
+    }
+    
+    // ✅ SECURE: Cross-validate dengan expected total
+    const numAmount = Number(amount);
+    if (Math.abs(numAmount - totalHarga) > 0.01) {
+        showFallbackNotification("Jumlah pembayaran tidak sesuai dengan total pesanan!", 'error');
+        console.warn('Amount mismatch:', { expected: totalHarga, received: numAmount });
         return;
     }
 
     console.log('Processing payment...');
-    // Process payment using Strategy Pattern
-    PaymentStrategy.process(selectedPayment, amount, film);
+    // ✅ SECURE: Pass sanitized data
+    PaymentStrategy.process(selectedPayment.trim(), numAmount, sanitizeString(film));
 });
 
 // Strategy Pattern untuk payment processing
