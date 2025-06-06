@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // ✅ SUCCESS: Registration berhasil
                 console.log('✅ Registration successful:', result);
                 
-                // ✅ SECURE CODING: Log successful registration event
+                // ✅ SECURE CODING: Log security event
                 securityManager.logSecurityEvent('user_registration', username, {
                     email: email,
                     registrationMethod: 'web_form',
@@ -229,15 +229,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     userAgent: navigator.userAgent
                 });
                 
+                // ✅ SUCCESS: Show success notification
                 notificationManager.success(`Registrasi berhasil! Akun "${username}" telah dibuat.`);
                 
-                // ✅ PERBAIKAN: Clear form tapi JANGAN auto login
-                registerForm.reset();
+                // ✅ Show registration summary
+                showRegistrationSummary(username, email);
                 
-                // ✅ PERBAIKAN: Redirect ke login page, bukan home
+                // Clear form
+                registerForm.reset();
+                clearFieldState(usernameInput);
+                clearFieldState(emailInput);
+                clearFieldState(passwordInput);
+                clearFieldState(confirmPasswordInput);
+                
+                // Redirect to login after success
                 setTimeout(() => {
-                    window.location.href = 'login.html'; // Bukan 'home.html'
-                }, 2000); // Kurangi delay jadi 2 detik
+                    window.location.href = 'login.html';
+                }, 3000);
                 
             } else {
                 // ✅ HANDLE API ERRORS

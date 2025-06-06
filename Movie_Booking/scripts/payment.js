@@ -1,5 +1,5 @@
 // Ambil data pesanan dari localStorage
-const film = localStorage.getItem("selectedFilm") || "Film";
+const film = localStorage.getItem("filmDipilih") || "Film";
 const kursi = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
 const poster = localStorage.getItem("selectedFilmImage") || "";
 const jamTayang = localStorage.getItem("selectedShowTime") || "19:00 WIB"; // default jika belum ada

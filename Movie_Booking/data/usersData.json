@@ -1,94 +1,115 @@
 {
   "users": [
     {
+      "id": 1,
       "username": "admin",
+      "email": "admin@moviebooking.com",
       "password": "admin123",
-      "email": "admin@cinemabook.com",
-      "registerDate": "2025-05-27"
+      "registrationDate": "2024-01-01T00:00:00.000Z"
     },
     {
+      "id": 2,
       "username": "user1",
-      "password": "password123",
       "email": "user1@example.com",
-      "registerDate": "2025-05-27"
+      "password": "password123",
+      "registrationDate": "2024-01-02T00:00:00.000Z"
     },
     {
+      "id": 3,
       "username": "arwin",
+      "email": "",
       "password": "arwin",
-      "email": "",
-      "registerDate": "2025-05-27"
+      "registrationDate": "2025-05-27T00:00:00.000Z"
     },
     {
+      "id": 4,
       "username": "dimas",
+      "email": "",
       "password": "dimas",
-      "email": "",
-      "registerDate": "2025-05-27"
+      "registrationDate": "2025-05-27T00:00:00.000Z"
     },
     {
+      "id": 5,
       "username": "win",
-      "password": "123",
       "email": "",
-      "registerDate": "2025-05-27"
+      "password": "123",
+      "registrationDate": "2025-05-27T00:00:00.000Z"
     },
     {
+      "id": 6,
       "username": "abu2",
-      "password": "abuu",
       "email": "prabu@gmail.com",
-      "registerDate": "2025-05-27"
+      "password": "abuu",
+      "registrationDate": "2025-05-27T00:00:00.000Z"
     },
     {
+      "id": 7,
       "username": "abun",
-      "password": "abuun",
       "email": "prab@gmail.com",
-      "registerDate": "2025-05-27"
+      "password": "abuun",
+      "registrationDate": "2025-05-27T00:00:00.000Z"
     },
     {
+      "id": 8,
       "username": "upin",
-      "password": "ipin",
       "email": "upinipin@gmail.com",
-      "registerDate": "2025-05-30"
+      "password": "ipin",
+      "registrationDate": "2025-05-30T00:00:00.000Z"
     },
     {
+      "id": 9,
       "username": "coba",
-      "password": "walawe",
       "email": "test@gmail.com",
-      "registerDate": "2025-05-31"
+      "password": "walawe",
+      "registrationDate": "2025-05-31T00:00:00.000Z"
     },
     {
+      "id": 10,
       "username": "abuyaa",
-      "password": "walaweaw",
       "email": "abuyaa@gmail.com",
-      "registerDate": "2025-06-02"
+      "password": "walaweaw",
+      "registrationDate": "2025-06-02T00:00:00.000Z"
     },
     {
+      "id": 11,
       "username": "dimascahyomargono",
-      "password": "walawe123",
       "email": "celeng@gmail.com",
-      "registerDate": "2025-06-02"
+      "password": "walawe123",
+      "registrationDate": "2025-06-02T00:00:00.000Z"
     },
     {
+      "id": 12,
       "username": "abuyaaw",
-      "password": "walawe123",
       "email": "gaktauiniemail@gmail.com",
-      "registerDate": "2025-06-02"
-    },
-    {
-      "username": "inyong",
-      "password": "nyong123",
-      "email": "cimeng@gmail.com",
-      "registerDate": "2025-06-02"
-    },
-    {
-      "username": "ganteng",
-      "password": "test12345",
-      "email": "walawe@gmail.com",
-      "registerDate": "2025-06-03"
-    },
-    {
-      "username": "weareaaclan",
       "password": "walawe123",
+      "registrationDate": "2025-06-02T00:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "username": "inyong",
+      "email": "cimeng@gmail.com",
+      "password": "nyong123",
+      "registrationDate": "2025-06-02T00:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "username": "ganteng",
+      "email": "walawe@gmail.com",
+      "password": "test12345",
+      "registrationDate": "2025-06-03T00:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "username": "weareaaclan",
       "email": "aaclan@gmail.com",
-      "registerDate": "2025-06-03"
+      "password": "walawe123",
+      "registrationDate": "2025-06-03T00:00:00.000Z"
+    },
+    {
+      "username": "abuyaax",
+      "password": "walawe12",
+      "email": "celencg@gmail.com",
+      "registerDate": "2025-06-06"
     }
   ]
 }
