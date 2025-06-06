@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CinemaBook - Pemesanan Tiket Bioskop</title>
   <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="../styles/warning-dialog.css" />
 </head>
 
 <body>
@@ -100,6 +101,30 @@
   <!-- JavaScript Files -->
   <script src="../scripts/UI.js"></script>
   <script src="../scripts/navbar.js"></script>
+  <script src="../scripts/warning-dialog.js"></script>
+
+  <!-- Session Check Script -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Override register link click
+      const registerLinks = document.querySelectorAll('a[href="register.html"]');
+      registerLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+              e.preventDefault();
+              checkSessionAndRedirect('register');
+          });
+      });
+      
+      // Override login link click
+      const loginLinks = document.querySelectorAll('a[href="login.html"]');
+      loginLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+              e.preventDefault();
+              checkSessionAndRedirect('login');
+          });
+      });
+  });
+  </script>
 </body>
 
 </html>

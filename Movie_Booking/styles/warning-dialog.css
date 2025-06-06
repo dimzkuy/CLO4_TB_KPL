@@ -1,0 +1,383 @@
+/* Warning Dialog Styles - Sesuai Tema Utama */
+.warning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(45, 20, 87, 0.85);  /* Sesuai body background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(10px);
+}
+
+.warning-modal {
+    background: linear-gradient(135deg, #3a0f91 0%, #2d328e 100%);  /* Sesuai tema utama */
+    border-radius: 16px;
+    padding: 35px;
+    max-width: 480px;
+    margin: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);  /* Konsisten dengan popup-modal */
+}
+
+.warning-modal::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.1) 0%, transparent 70%);  /* Gunakan #ffc107 */
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.warning-icon {
+    font-size: 54px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: iconPulse 2s ease-in-out infinite;
+    color: #ffc107;  /* Sesuai logo-icon color */
+}
+
+.warning-title {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 700;  /* Sesuai dengan font-weight di tema */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  /* Konsisten */
+}
+
+.warning-message {
+    color: rgba(255, 255, 255, 0.9);  /* Sesuai dengan text color di tema */
+    margin-bottom: 30px;
+    line-height: 1.6;
+    font-size: 16px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.warning-username {
+    color: #ffc107;  /* Sesuai dengan accent color tema */
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.warning-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.warning-btn {
+    border: none;
+    padding: 12px 28px;  /* Sesuai dengan form-button */
+    border-radius: 8px;   /* Konsisten dengan border-radius tema */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.warning-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.6s ease;
+    transform: translate(-50%, -50%);
+}
+
+.warning-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.warning-btn-primary {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a359a 100%);  /* Sesuai btn-primary tema */
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.warning-btn-primary:hover {
+    transform: translateY(-2px);  /* Konsisten dengan hover effect tema */
+    box-shadow: 0 8px 25px rgba(111, 66, 193, 0.4);
+    background: linear-gradient(135deg, #5a359a 0%, #493285 100%);
+}
+
+.warning-btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);  /* Sesuai logout-btn */
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.warning-btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+    background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+}
+
+.warning-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);  /* Sesuai dengan tema transparent */
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.warning-btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(134, 142, 150, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.warning-footer {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.warning-footer-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.warning-footer-link {
+    color: #ffc107;  /* Sesuai dengan accent color tema */
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.warning-footer-link:hover {
+    color: #fd7e14;  /* Gradient color dari tema */
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+    text-decoration: underline;  /* Sesuai dengan hover style tema */
+}
+
+/* Notification Styles - Sesuai Tema */
+.custom-notification {
+    position: fixed;
+    top: 100px;  /* Sesuai dengan alert position di tema */
+    right: 20px;
+    background: linear-gradient(135deg, #3a0f91 0%, #2d328e 100%);
+    color: white;
+    padding: 15px 20px;  /* Sesuai dengan alert padding */
+    border-radius: 8px;   /* Konsisten dengan tema */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);  /* Sesuai alert shadow */
+    z-index: 10001;
+    font-weight: 500;
+    font-size: 14px;
+    animation: slideInRight 0.3s ease-out;  /* Sesuai slideIn tema */
+    max-width: 400px;  /* Sesuai alert max-width */
+    min-width: 300px;  /* Sesuai alert min-width */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notification-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);  /* Sesuai alert-success */
+}
+
+.notification-error {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);  /* Sesuai alert-error */
+}
+
+.notification-info {
+    background: linear-gradient(135deg, #3a0f91 0%, #2d328e 100%);
+}
+
+/* Close button untuk notification */
+.notification-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    margin-left: 10px;
+}
+
+.notification-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animations - Konsisten dengan tema */
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);  /* Sesuai dengan popup animation tema */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes iconPulse {
+    0%, 100% {
+        transform: scale(1);
+        color: #ffc107;
+    }
+    50% {
+        transform: scale(1.1);
+        color: #fd7e14;  /* Gradient color dari tema */
+    }
+}
+
+@keyframes shimmer {
+    0%, 100% {
+        opacity: 0.3;
+        transform: rotate(0deg);
+    }
+    50% {
+        opacity: 0.8;
+        transform: rotate(180deg);
+    }
+}
+
+/* Responsive Design - Sesuai dengan tema mobile */
+@media screen and (max-width: 768px) {
+    .warning-modal {
+        padding: 25px;
+        margin: 15px;
+        max-width: 90%;
+    }
+    
+    .warning-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .warning-btn {
+        min-width: 200px;
+    }
+    
+    .warning-title {
+        font-size: 20px;
+    }
+    
+    .warning-message {
+        font-size: 14px;
+    }
+    
+    .custom-notification {
+        min-width: 250px;  /* Sesuai dengan mobile responsive tema */
+        margin: 0 10px;
+        font-size: 14px;
+        top: 80px;  /* Adjust untuk mobile */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .warning-modal {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .warning-icon {
+        font-size: 42px;
+    }
+    
+    .warning-title {
+        font-size: 18px;
+    }
+    
+    .warning-message {
+        font-size: 13px;
+    }
+    
+    .warning-btn {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+    
+    .custom-notification {
+        min-width: 200px;
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+}
+
+/* Accessibility - Sesuai dengan tema */
+.warning-btn:focus {
+    outline: 3px solid #ffc107;  /* Sesuai accent color */
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .warning-modal {
+        border-width: 3px;
+        border-color: #ffc107;
+    }
+    
+    .warning-btn {
+        border-width: 2px;
+        border-color: white;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .warning-overlay,
+    .warning-modal,
+    .warning-icon,
+    .custom-notification {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .warning-overlay.show .warning-modal {
+        transform: scale(1) translateY(0) !important;
+    }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+    .warning-modal {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+        border-color: rgba(255, 193, 7, 0.3);
+    }
+    
+    .warning-footer {
+        border-top-color: rgba(255, 193, 7, 0.2);
+    }
+}

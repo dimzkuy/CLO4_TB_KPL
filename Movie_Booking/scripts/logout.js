@@ -55,13 +55,14 @@ function updateUserDisplay(currentUser) {
     }
 }
 
-// Setup session observer
+// ✅ CLEAN: Setup session observer dengan modular notification
 function setupSessionObserver() {
     sessionManager.addObserver((action, data) => {
         console.log('Session observer triggered:', action, data);
         
         if (action === 'logout') {
-            notificationManager.success('Logout berhasil!');
+            // ✅ MODULAR: Gunakan NotificationSystem
+            NotificationSystem.showSuccess('Logout berhasil!');
             setTimeout(() => {
                 window.location.href = 'landing_page.html';
             }, 1500);
@@ -106,7 +107,7 @@ function pilihFilm(namaFilm) {
         // Check login status
         if (!sessionManager.isLoggedIn()) {
             console.log('User not logged in');
-            notificationManager.error('Session expired. Please login again.');
+            NotificationSystem.showError('Session expired. Please login again.');
             setTimeout(() => {
                 window.location.href = 'login.html';
             }, 2000);
@@ -122,7 +123,7 @@ function pilihFilm(namaFilm) {
             console.log('Selected movie data:', selectedMovie);
             
             // Show success notification
-            notificationManager.success(`Film "${namaFilm}" dipilih! Redirecting...`);
+            NotificationSystem.showSuccess(`Film "${namaFilm}" dipilih! Redirecting...`);
             
             // Redirect after short delay
             setTimeout(() => {
@@ -131,7 +132,7 @@ function pilihFilm(namaFilm) {
             
         } else {
             console.log('Movie selection failed');
-            notificationManager.error('Film tidak tersedia atau sudah tidak tayang.');
+            NotificationSystem.showError('Film tidak tersedia atau sudah tidak tayang.');
         }
         
     } catch (error) {
@@ -147,7 +148,7 @@ function handleFallbackMovieSelection(namaFilm) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     
     if (!currentUser) {
-        alert('Session expired. Please login again.');
+        NotificationSystem.showError('Session expired. Please login again.');
         setTimeout(() => {
             window.location.href = 'login.html';
         }, 2000);
@@ -164,11 +165,13 @@ function handleFallbackMovieSelection(namaFilm) {
     localStorage.setItem('selectedMovie', JSON.stringify(movieInfo));
     console.log('Movie saved via fallback, redirecting...');
     
-    // Show simple alert
-    alert(`Film "${namaFilm}" dipilih!`);
+    // Show success notification
+    NotificationSystem.showSuccess(`Film "${namaFilm}" dipilih!`);
     
     // Redirect ke halaman pilih kursi
-    window.location.href = 'pilih_kursi.html';
+    setTimeout(() => {
+        window.location.href = 'pilih_kursi.html';
+    }, 1000);
 }
 
 // Handle logout dengan custom modal
@@ -231,14 +234,14 @@ function closeLogoutModal() {
     }
 }
 
-// Confirm logout menggunakan Singleton
+// ✅ CLEAN: Confirm logout dengan modular notification
 function confirmLogout() {
     console.log('confirmLogout called');
     
     try {
         if (sessionManager) {
             console.log('Using Singleton for logout');
-            sessionManager.logout(); // Will trigger observer
+            sessionManager.logout(); // Will trigger observer dengan modular notification
         } else {
             throw new Error('SessionManager not available');
         }
@@ -247,11 +250,8 @@ function confirmLogout() {
         // Fallback logout
         localStorage.removeItem('currentUser');
         
-        if (notificationManager) {
-            notificationManager.success('Logout berhasil!');
-        } else {
-            alert('Logout berhasil!');
-        }
+        // ✅ MODULAR: Gunakan NotificationSystem untuk fallback
+        NotificationSystem.showSuccess('Logout berhasil!');
         
         setTimeout(() => {
             window.location.href = 'landing_page.html';

@@ -16,9 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Check if user is already logged in
+    // ✅ MODIFIKASI: Check if user is already logged in - tampilkan warning
     if (sessionManager && sessionManager.isLoggedIn() && securityManager.isSessionValid()) {
-        window.location.href = 'home.html';
+        const currentUser = sessionManager.getCurrentUser();
+        const username = currentUser ? currentUser.username : 'User';
+        
+        showUserWarningDialog(username);
         return;
     }
     
@@ -373,6 +376,215 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+// ✅ FUNCTION: Warning dialog untuk user yang sudah login
+function showUserWarningDialog(username) {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'warning-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+    `;
+    
+    // Create warning modal
+    const modal = document.createElement('div');
+    modal.className = 'warning-modal';
+    modal.style.cssText = `
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 450px;
+        margin: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        animation: modalSlideIn 0.3s ease-out;
+    `;
+    
+    modal.innerHTML = `
+        <div class="warning-icon" style="font-size: 48px; margin-bottom: 20px;">⚠️</div>
+        <h3 style="color: #333; margin-bottom: 15px; font-size: 22px;">Anda Sudah Login</h3>
+        <p style="color: #666; margin-bottom: 25px; line-height: 1.5;">
+            Apakah Anda ingin melanjutkan sebagai <strong style="color: #007bff;">"${username}"</strong> 
+            atau login dengan user yang berbeda?
+        </p>
+        
+        <div class="warning-buttons" style="display: flex; gap: 15px; justify-content: center;">
+            <button id="continueAsUser" class="warning-btn warning-btn-primary" style="
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            ">
+                Lanjutkan sebagai ${username}
+            </button>
+            
+            <button id="loginDifferentUser" class="warning-btn warning-btn-secondary" style="
+                background: #6c757d;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            ">
+                Login User Lain
+            </button>
+        </div>
+        
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+            <p style="font-size: 13px; color: #888; margin: 0;">
+                Atau <a href="landing_page.html" style="color: #007bff; text-decoration: none;">kembali ke beranda</a>
+            </p>
+        </div>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .warning-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .warning-btn-primary:hover {
+            background: #0056b3 !important;
+        }
+        
+        .warning-btn-secondary:hover {
+            background: #545b62 !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // ✅ EVENT LISTENERS
+    document.getElementById('continueAsUser').addEventListener('click', function() {
+        overlay.remove();
+        style.remove();
+        // Redirect ke home
+        window.location.href = 'home.html';
+    });
+    
+    document.getElementById('loginDifferentUser').addEventListener('click', function() {
+        overlay.remove();
+        style.remove();
+        // Logout current user dan redirect ke login
+        logoutAndRedirect();
+    });
+    
+    // Close on overlay click
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            overlay.remove();
+            style.remove();
+            window.location.href = 'landing_page.html';
+        }
+    });
+}
+
+// ✅ FUNCTION: Logout dan redirect ke login
+function logoutAndRedirect() {
+    try {
+        // Clear session menggunakan SessionManager
+        const sessionManager = SessionManager.getInstance();
+        if (sessionManager && typeof sessionManager.logout === 'function') {
+            sessionManager.logout();
+        }
+        
+        // Clear localStorage
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('sessionToken');
+        localStorage.removeItem('userSession');
+        
+        // Clear sessionStorage
+        sessionStorage.clear();
+        
+        console.log('✅ User logged out successfully');
+        
+        // Show brief notification
+        showBriefNotification('Logout berhasil. Silakan login dengan akun lain.');
+        
+        // Redirect to login after short delay
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Logout error:', error);
+        // Fallback: force clear and redirect
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+    }
+}
+
+// ✅ FUNCTION: Brief notification
+function showBriefNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 10001;
+        font-weight: 500;
+        animation: slideInRight 0.3s ease-out;
+    `;
+    notification.textContent = message;
+    
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+        style.remove();
+    }, 3000);
+}
 
 // ✅ FALLBACK IMPLEMENTATION untuk jika server tidak berjalan
 function initializeFallbackRegister() {

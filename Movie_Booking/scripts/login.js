@@ -2,6 +2,22 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     
+    // ✅ Check if user is already logged in
+    try {
+        const sessionManager = SessionManager.getInstance();
+        const securityManager = SecurityManager.getInstance();
+        
+        if (sessionManager && sessionManager.isLoggedIn() && securityManager.isSessionValid()) {
+            const currentUser = sessionManager.getCurrentUser();
+            const username = currentUser ? currentUser.username : 'User';
+            
+            showLoginWarningDialog(username);
+            return;
+        }
+    } catch (error) {
+        console.log('No existing session found');
+    }
+    
     // ✅ FINITE STATE AUTOMATA Definition
     const LoginStates = {
         IDLE: 'idle',
@@ -629,4 +645,92 @@ document.addEventListener('DOMContentLoaded', function () {
     });
             
 });
+
+// ✅ FUNCTION: Warning dialog untuk login page
+function showLoginWarningDialog(username) {
+    const overlay = document.createElement('div');
+    overlay.className = 'warning-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+    `;
+    
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 450px;
+        margin: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        animation: modalSlideIn 0.3s ease-out;
+    `;
+    
+    modal.innerHTML = `
+        <div style="font-size: 48px; margin-bottom: 20px;">👤</div>
+        <h3 style="color: #333; margin-bottom: 15px; font-size: 22px;">Sudah Login</h3>
+        <p style="color: #666; margin-bottom: 25px; line-height: 1.5;">
+            Anda sudah login sebagai <strong style="color: #007bff;">"${username}"</strong>. 
+            Apakah ingin melanjutkan atau login dengan user yang berbeda?
+        </p>
         
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <button id="continueAsCurrentUser" style="
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+            ">
+                Lanjutkan sebagai ${username}
+            </button>
+            
+            <button id="switchUser" style="
+                background: #6c757d;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+            ">
+                Ganti User
+            </button>
+        </div>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    document.getElementById('continueAsCurrentUser').addEventListener('click', function() {
+        overlay.remove();
+        window.location.href = 'home.html';
+    });
+    
+    document.getElementById('switchUser').addEventListener('click', function() {
+        overlay.remove();
+        // Clear session and allow new login
+        try {
+            const sessionManager = SessionManager.getInstance();
+            sessionManager.logout();
+        } catch (error) {
+            localStorage.clear();
+            sessionStorage.clear();
+        }
+        // Stay on login page for new login
+        location.reload();
+    });
+}
+
