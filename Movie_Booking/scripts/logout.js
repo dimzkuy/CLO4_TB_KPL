@@ -61,11 +61,16 @@ function setupSessionObserver() {
         console.log('Session observer triggered:', action, data);
         
         if (action === 'logout') {
+            console.log('Logout observer: Processing logout...');
             // ✅ MODULAR: Gunakan NotificationSystem
             NotificationSystem.showSuccess('Logout berhasil!');
+            
+            // Immediate redirect with shorter timeout
+            console.log('Logout observer: Redirecting to landing page...');
             setTimeout(() => {
-                window.location.href = 'landing_page.html';
-            }, 1500);
+                console.log('Observer redirect executing...');
+                window.location.replace('landing_page.html');
+            }, 800);
         }
     });
 }
@@ -199,8 +204,8 @@ function showLogoutModal() {
                     <p>Apakah Anda yakin ingin keluar dari CinemaBook?</p>
                 </div>
                 <div class="logout-modal-footer">
-                    <button class="logout-cancel-btn" onclick="closeLogoutModal()">Batal</button>
-                    <button class="logout-confirm-btn" onclick="confirmLogout()">Logout</button>
+                    <button type="button" class="logout-cancel-btn" id="cancelLogoutBtn">Batal</button>
+                    <button type="button" class="logout-confirm-btn" id="confirmLogoutBtn">Logout</button>
                 </div>
             </div>
         </div>
@@ -215,9 +220,28 @@ function showLogoutModal() {
         modal.classList.add('show');
     }, 10);
     
+    // Add event listeners for buttons
+    const cancelBtn = document.getElementById('cancelLogoutBtn');
+    const confirmBtn = document.getElementById('confirmLogoutBtn');
+    
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeLogoutModal);
+    }
+    
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', confirmLogout);
+    }
+    
     // Close modal when clicking outside
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
+            closeLogoutModal();
+        }
+    });
+    
+    // Handle escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
             closeLogoutModal();
         }
     });
@@ -232,57 +256,133 @@ function closeLogoutModal() {
             modal.remove();
         }, 300);
     }
+    
+    // Remove escape key listener
+    document.removeEventListener('keydown', closeLogoutModal);
+}
+
+// Custom notification function for logout
+function showCustomNotification(message, type = 'success') {
+    // Remove existing notification if any
+    const existingNotif = document.querySelector('.notification');
+    if (existingNotif) {
+        existingNotif.remove();
+    }
+    
+    // Create notification element with same structure as existing notifications
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+    
+    // Add styles to match existing notification system
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#28a745' : '#dc3545'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+        font-family: inherit;
+        font-size: 14px;
+        min-width: 200px;
+    `;
+    
+    // Add styles for close button
+    const style = document.createElement('style');
+    style.textContent = `
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .notification-close:hover {
+            opacity: 1;
+        }
+        .notification-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Show animation
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+    }, 10);
+    
+    // Auto remove after 2.5 seconds (longer duration)
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 300);
+    }, 2500);
 }
 
 // ✅ CLEAN: Confirm logout dengan modular notification
 function confirmLogout() {
     console.log('confirmLogout called');
     
-    try {
-        if (sessionManager) {
-            console.log('Using Singleton for logout');
-            sessionManager.logout(); // Will trigger observer dengan modular notification
-        } else {
-            throw new Error('SessionManager not available');
-        }
-    } catch (error) {
-        console.log('Using fallback logout');
-        // Fallback logout
-        localStorage.removeItem('currentUser');
-        
-        // ✅ MODULAR: Gunakan NotificationSystem untuk fallback
-        NotificationSystem.showSuccess('Logout berhasil!');
-        
-        setTimeout(() => {
-            window.location.href = 'landing_page.html';
-        }, 1500);
+    // Disable button to prevent double clicks
+    const confirmBtn = document.getElementById('confirmLogoutBtn');
+    if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Logging out...';
     }
     
+    // Close modal immediately
     closeLogoutModal();
+    
+    // Show custom notification
+    showCustomNotification('Logout berhasil!', 'success');
+    
+    // Perform logout directly without relying on observers
+    console.log('Performing direct logout...');
+    
+    // Clear all data immediately
+    if (sessionManager) {
+        sessionManager.currentUser = null;
+    }
+    
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('selectedMovie');
+    localStorage.removeItem('sessionTimestamp');
+    sessionStorage.clear();
+    
+    // Increase delay to 2.5 seconds to let notification show properly
+    console.log('Redirecting to landing page in 2.5 seconds...');
+    setTimeout(() => {
+        console.log('Executing redirect now...');
+        window.location.href = 'landing_page.html';
+    }, 2500);
 }
 
-// Testing functions - hapus di production
-function testSingletons() {
-    console.log('=== Testing Singletons ===');
-    
-    const session1 = SessionManager.getInstance();
-    const session2 = SessionManager.getInstance();
-    console.log('SessionManager - Same instance?', session1 === session2);
-    
-    const movie1 = MovieManager.getInstance();
-    const movie2 = MovieManager.getInstance();
-    console.log('MovieManager - Same instance?', movie1 === movie2);
-    
-    const notif1 = NotificationManager.getInstance();
-    const notif2 = NotificationManager.getInstance();
-    console.log('NotificationManager - Same instance?', notif1 === notif2);
-    
-    console.log('Current user:', session1.getCurrentUser());
-    console.log('Available movies:', movie1.getAvailableMovies());
-}
-
-// Expose untuk testing di console
-window.testSingletons = testSingletons;
-window.sessionManager = () => sessionManager;
-window.movieManager = () => movieManager;
-window.notificationManager = () => notificationManager;
+// Expose functions to global scope for HTML onclick handlers
+window.handleLogout = handleLogout;
+window.pilihFilm = pilihFilm;
